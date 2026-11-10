@@ -6,11 +6,13 @@
   import Card from '$lib/components/ui/Card.svelte';
   import Chip from '$lib/components/ui/Chip.svelte';
   import ProgressBar from '$lib/components/ui/ProgressBar.svelte';
+  import ScoreRing, { toneFor } from '$lib/components/ui/ScoreRing.svelte';
   import Toggle from '$lib/components/ui/Toggle.svelte';
   import { loadCatalog } from '$lib/content/load';
   import { localize } from '$lib/content/localize';
+  import { historyUnsaved } from '$lib/history/history.svelte';
   import { t, tn } from '$lib/i18n';
-  import { resetSession, retrySameSet, session, sessionScore, sessionTimeUsedMs } from '$lib/quiz/session.svelte';
+  import { resetSession, retrySameSet, retryWrong, session, sessionScore, sessionTimeUsedMs } from '$lib/quiz/session.svelte';
   import { formatClock } from '$lib/quiz/timer';
   import { settingsState } from '$lib/settings/settings.svelte';
 
@@ -20,7 +22,9 @@
   const language = $derived(settingsState.value.language);
   const score = $derived(sessionScore());
   const timeUsed = $derived(formatClock(sessionTimeUsedMs()));
-  const tone = $derived(score.percent >= 70 ? 'accent' : score.percent >= 40 ? 'warning' : 'danger');
+  const tone = $derived(toneFor(score.percent));
+  // Wrong and unanswered questions both count as missed.
+  const missed = $derived(score.total - score.correct);
 
   let showAll = $state(false);
   let heading: HTMLHeadingElement | undefined = $state();
@@ -47,6 +51,10 @@
     if (retrySameSet()) void goto('/quiz');
   }
 
+  function retryMissed() {
+    if (retryWrong()) void goto('/quiz');
+  }
+
   function newTest() {
     resetSession();
     void goto('/');
@@ -63,8 +71,12 @@
     </header>
 
     <Card title={t('results.summary')} headingId="summary-title">
+      {#snippet aside()}<Chip tone={session.mode === 'practice' ? 'accent' : 'neutral'}>
+          <span class="visually-hidden">{t('results.mode')}: </span>{t(`results.mode.${session.mode}`)}
+        </Chip>{/snippet}
+
       <div class="score">
-        <p class="percent {tone}"><span class="visually-hidden">{t('results.scoreLabel')}</span> {score.percent}%</p>
+        <ScoreRing percent={score.percent} {tone} label={t('results.percentLabel', { percent: score.percent })} />
 
         <dl>
           <div>
@@ -81,21 +93,23 @@
         </dl>
       </div>
 
-      <ProgressBar label={t('results.percentLabel', { percent: score.percent })} value={score.percent} {tone} />
+      {#if historyUnsaved()}<p class="record-failed" role="status">{t('results.recordFailed')}</p>{/if}
     </Card>
 
     <Card title={t('results.byTopic')} headingId="topics-title">
       <ul class="topics">
         {#each score.topics as entry (entry.topic)}
+          {@const percent = Math.round((entry.correct / entry.total) * 100)}
           <li>
             <div class="topic-row">
               <span class="topic-name">{topicTitle(entry.topic)}</span>
-              <span class="topic-score">{entry.correct}/{entry.total} · {Math.round((entry.correct / entry.total) * 100)}%</span>
+              <span class="topic-score">{entry.correct}/{entry.total} · {percent}%</span>
             </div>
             <ProgressBar
               label={topicTitle(entry.topic)}
               value={entry.correct}
               max={entry.total}
+              tone={toneFor(percent)}
               valueText={t('results.correctOf', { correct: entry.correct, total: entry.total })}
             />
           </li>
@@ -122,8 +136,10 @@
     </section>
 
     <div class="actions">
-      <Button onclick={retry}>{t('results.retry')}</Button>
+      {#if missed > 0}<Button onclick={retryMissed}>{t('results.retryWrong', { count: missed })}</Button>{/if}
+      <Button variant={missed > 0 ? 'secondary' : 'primary'} onclick={retry}>{t('results.retry')}</Button>
       <Button variant="secondary" onclick={newTest}>{t('results.newTest')}</Button>
+      <Button variant="ghost" href="/history">{t('nav.history')}</Button>
     </div>
   </div>
 {/if}
@@ -159,28 +175,17 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 16px 40px;
-    margin-bottom: 18px;
+    gap: 20px 48px;
   }
 
-  .percent {
-    font-family: var(--font-mono);
-    font-size: clamp(48px, 7vw, 80px);
-    font-weight: 800;
-    line-height: 1;
-    letter-spacing: -0.05em;
-  }
-
-  .percent.accent {
-    color: var(--accent);
-  }
-
-  .percent.warning {
+  .record-failed {
+    margin-top: 20px;
+    padding: 10px 14px;
+    border: 1px solid var(--warning-border);
+    border-radius: var(--radius-lg);
+    background: var(--warning-soft);
+    font-size: 14px;
     color: var(--warning);
-  }
-
-  .percent.danger {
-    color: var(--danger);
   }
 
   dl {
@@ -207,19 +212,27 @@
   }
 
   .topics {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+    gap: 12px;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
+  .topics li {
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--panel-alt);
+  }
+
   .topic-row {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 6px;
+    gap: 2px 12px;
+    margin-bottom: 10px;
     font-size: 14px;
   }
 

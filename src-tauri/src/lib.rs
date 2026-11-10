@@ -1,11 +1,14 @@
 //! Harness Test Portal: the app shell. It shows the quiz frontend in a native window, stores the
-//! user's settings, opens links in the browser, and updates itself. The quiz itself lives in the
+//! user's settings and its JSON documents (quiz history, paused session), opens links in the
+//! browser, and updates itself. The quiz itself lives in the
 //! frontend; the shell adds only these as IPC commands.
 
 #[cfg(test)]
 mod command_names;
 mod commands;
+mod data;
 mod error;
+mod files;
 mod logging;
 mod settings;
 #[cfg(test)]
@@ -19,6 +22,7 @@ use std::process::ExitCode;
 use tauri::Manager;
 use tauri_plugin_window_state::StateFlags;
 
+use crate::commands::data::DataStore;
 use crate::commands::settings::SettingsStore;
 use crate::settings::SETTINGS_FILE;
 use crate::updates::Updates;
@@ -28,6 +32,8 @@ fn invoke_handler<R: tauri::Runtime>() -> impl Fn(tauri::ipc::Invoke<R>) -> bool
     tauri::generate_handler![
         commands::settings::settings_load,
         commands::settings::settings_save,
+        commands::data::data_load,
+        commands::data::data_save,
         commands::updates::update_check,
         commands::updates::update_install,
         commands::updates::app_relaunch,
@@ -56,6 +62,7 @@ pub fn run() -> ExitCode {
         .setup(|app| {
             app.manage(Updates::from_config(app.config()));
             app.manage(SettingsStore::new(app.path().app_config_dir()?.join(SETTINGS_FILE)));
+            app.manage(DataStore::new(app.path().app_config_dir()?));
             window::create_main_window(app)?;
 
             let version = app.package_info().version.to_string();
@@ -117,6 +124,7 @@ mod tests {
         let app = mock_builder()
             .manage(Updates::new(None))
             .manage(SettingsStore::new(directory.path().join(SETTINGS_FILE)))
+            .manage(DataStore::new(directory.path().to_path_buf()))
             .invoke_handler(handler)
             .build(tauri::generate_context!())
             .expect("mock app");

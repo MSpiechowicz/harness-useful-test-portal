@@ -17,7 +17,7 @@
 
   let { label, options, value, disabled = false, onchange }: Props = $props();
 
-  const buttons: Record<string, HTMLButtonElement | undefined> = {};
+  const buttons: Record<string, HTMLButtonElement | undefined> = $state({});
   const selected = $derived(options.find((option) => option.value === value) ?? options[0]);
 
   function choose(index: number, focus: boolean) {

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ConfirmDialog from '$lib/components/quiz/ConfirmDialog.svelte';
   import Button from '$lib/components/ui/Button.svelte';
   import Card from '$lib/components/ui/Card.svelte';
   import CheckboxGroup from '$lib/components/ui/CheckboxGroup.svelte';
@@ -52,6 +53,13 @@
   const difficultyOptions = $derived(DIFFICULTIES.map((value) => ({ value, label: t(`difficulty.${value}`) })));
   const languageOptions = $derived(availableLocales().map((code) => ({ value: code, label: LOCALE_NAMES[code] })));
 
+  let confirmingReset = $state(false);
+
+  function confirmReset() {
+    confirmingReset = false;
+    resetSettings();
+  }
+
   const fraction = $derived(downloadFraction());
   const busy = $derived(updater.status === 'checking' || updater.installing);
 
@@ -76,6 +84,10 @@
     <p class="lead">{t('settings.lead')}</p>
   </header>
 
+  {#if settingsState.loadError}
+    <p class="error" role="alert">{t('settings.loadFailed', { error: settingsState.loadError })}</p>
+  {/if}
+
   <Card title={t('settings.testSection')} headingId="test-title">
     <div class="stack">
       <NumberField
@@ -99,7 +111,7 @@
       />
 
       <div class="field">
-        <span class="label" id="style-label">{t('settings.testStyle')}</span>
+        <span class="label">{t('settings.testStyle')}</span>
         <Segmented
           label={t('settings.testStyle')}
           options={styleOptions}
@@ -172,7 +184,12 @@
         />
 
         <div class="update-actions">
-          <Button variant="secondary" size="sm" disabled={busy || updater.status === 'unsupported'} onclick={() => checkUpdate(true)}>
+          <Button
+            variant="secondary"
+            size="sm"
+            disabled={busy || updater.status === 'unsupported' || updater.status === 'installed'}
+            onclick={() => checkUpdate(true)}
+          >
             {t('update.checkNow')}
           </Button>
           {#if updater.status === 'available' && !updater.installing}
@@ -195,7 +212,9 @@
   {/if}
 
   <div class="footer-row">
-    <Button variant="secondary" onclick={resetSettings}>{t('settings.reset')}</Button>
+    <Button variant="secondary" disabled={settingsState.loadError !== null} onclick={() => (confirmingReset = true)}>
+      {t('settings.reset')}
+    </Button>
     <p class="status" role="status">
       {#if settingsState.saveError}
         <span class="error">{t('settings.saveFailed', { error: settingsState.saveError })}</span>
@@ -205,6 +224,17 @@
     </p>
   </div>
 </div>
+
+<ConfirmDialog
+  open={confirmingReset}
+  title={t('settings.resetConfirmTitle')}
+  body={t('settings.resetConfirmBody')}
+  confirmLabel={t('settings.resetConfirmConfirm')}
+  cancelLabel={t('settings.resetConfirmCancel')}
+  tone="danger"
+  onconfirm={confirmReset}
+  oncancel={() => (confirmingReset = false)}
+/>
 
 <style>
   .page {

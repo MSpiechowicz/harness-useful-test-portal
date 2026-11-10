@@ -110,5 +110,12 @@ topics and questions and `fix(content): ...` for corrections, so releases pick t
 Prettier (`bun run format`), ESLint and strict TypeScript. UTF-8, LF, two-space indent (`.editorconfig`). Logic that can
 be tested without Svelte lives in plain `.ts` files next to its `.test.ts`, because `bun test` cannot compile `.svelte`
 or `.svelte.ts`.
+The quiz, history and storage logic follows this: `src/lib/quiz/state.ts`, `snapshot.ts` and `shortcuts.ts`,
+`src/lib/history/history.ts` and `stats.ts`, and `src/lib/storage/documents.ts` are pure and tested, while
+`session.svelte.ts` and `history.svelte.ts` are thin reactive wrappers around them.
+
+Adding a backend command: write the command function in `src-tauri/src/commands/`, add its name to
+`command_names.rs`, register the handler in `lib.rs` (and any managed state in `setup` and in the test helper), and allow
+it in `src-tauri/capabilities/default.json`. `data_load` and `data_save` are the example.
 
 The app's CSP forbids inline styles: use classes or Svelte `style:` directives, never `style="..."` attributes.

@@ -351,6 +351,18 @@
           "markdownDescription": "Enables the app_relaunch command without any pre-configured scope."
         },
         {
+          "description": "Enables the data_load command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-data-load",
+          "markdownDescription": "Enables the data_load command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the data_save command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-data-save",
+          "markdownDescription": "Enables the data_save command without any pre-configured scope."
+        },
+        {
           "description": "Enables the open_url command without any pre-configured scope.",
           "type": "string",
           "const": "allow-open-url",
@@ -385,6 +397,18 @@
           "type": "string",
           "const": "deny-app-relaunch",
           "markdownDescription": "Denies the app_relaunch command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the data_load command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-data-load",
+          "markdownDescription": "Denies the data_load command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the data_save command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-data-save",
+          "markdownDescription": "Denies the data_save command without any pre-configured scope."
         },
         {
           "description": "Denies the open_url command without any pre-configured scope.",

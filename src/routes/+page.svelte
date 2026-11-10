@@ -3,15 +3,20 @@
   import Button from '$lib/components/ui/Button.svelte';
   import Card from '$lib/components/ui/Card.svelte';
   import CheckboxGroup from '$lib/components/ui/CheckboxGroup.svelte';
+  import ConfirmDialog from '$lib/components/quiz/ConfirmDialog.svelte';
   import Chip from '$lib/components/ui/Chip.svelte';
+  import Segmented from '$lib/components/ui/Segmented.svelte';
   import { groupTopics } from '$lib/content/catalog';
   import { loadCatalog } from '$lib/content/load';
   import { localize } from '$lib/content/localize';
   import { t, tn } from '$lib/i18n';
   import { effectiveCount, filterPool } from '$lib/quiz/select';
-  import { resetSession, startQuiz } from '$lib/quiz/session.svelte';
+  import { discardResume, resetSession, resumable, resumeQuiz, session, startQuiz } from '$lib/quiz/session.svelte';
+  import { QUIZ_MODES, type QuizMode } from '$lib/quiz/state';
+  import { formatClock } from '$lib/quiz/timer';
   import { pruneTopics } from '$lib/settings/schema';
   import { settingsState, updateSettings } from '$lib/settings/settings.svelte';
+  import { readMode, writeMode } from '$lib/shell/shell';
 
   const catalog = loadCatalog();
   const allIds = catalog.topics.map((topic) => topic.id);
@@ -32,6 +37,12 @@
   const pool = $derived(filterPool(catalog.questions, filter));
   const testSize = $derived(effectiveCount(pool.length, settings.questionCount));
   const canStart = $derived(selection.length > 0 && pool.length > 0);
+
+  let mode = $state<QuizMode>(readMode());
+  let confirmingReplace = $state(false);
+
+  const modeOptions = $derived(QUIZ_MODES.map((value) => ({ value, label: t(`home.mode.${value}`) })));
+  const saved = $derived(session.phase === 'running' ? null : resumable.summary);
 
   const blocker = $derived.by(() => {
     if (catalog.questions.length === 0) return t('home.noContent');
@@ -56,14 +67,46 @@
     select([...selection.filter((id) => !groupIds.includes(id)), ...picked]);
   }
 
+  function changeMode(next: QuizMode) {
+    mode = next;
+    writeMode(next);
+  }
+
+  /** Asks first when a saved test would be replaced. */
   function start() {
     if (!canStart) return;
 
-    resetSession();
-    if (startQuiz(catalog, { ...settings, topics: filter.topics })) void goto('/quiz');
+    if (saved) confirmingReplace = true;
+    else begin();
   }
 
-  const timerText = $derived(settings.timerMinutes === 0 ? t('home.noTimer') : t('home.minutes', { count: settings.timerMinutes }));
+  function begin() {
+    confirmingReplace = false;
+    resetSession();
+
+    if (startQuiz(catalog, { ...settings, topics: filter.topics }, mode)) void goto('/quiz');
+  }
+
+  function resume() {
+    if (resumeQuiz()) void goto('/quiz');
+  }
+
+  const savedText = $derived.by(() => {
+    if (!saved) return '';
+
+    const params = { current: saved.current, total: saved.total, answered: saved.answered };
+
+    if (saved.remainingMs === null) return t('home.resume.summaryUntimed', params);
+
+    return t('home.resume.summaryTimed', { ...params, time: formatClock(saved.remainingMs) });
+  });
+
+  // Practice has no timer, whatever the setting says.
+  const timerText = $derived.by(() => {
+    if (mode === 'practice' || settings.timerMinutes === 0) return t('home.noTimer');
+
+    return t('home.minutes', { count: settings.timerMinutes });
+  });
   const styleText = $derived(t(`settings.style.${settings.testStyle}`));
   const difficultyText = $derived(
     settings.difficulties.length === 0
@@ -81,9 +124,27 @@
     <p class="lead">{t('home.lead')}</p>
   </section>
 
+  {#if resumable.notice}<p class="notice" role="status">{resumable.notice}</p>{/if}
+
+  {#if saved}
+    <Card title={t('home.resume.title')} headingId="resume-title">
+      {#snippet aside()}<Chip tone="accent">{t(`home.mode.${saved.mode}`)}</Chip>{/snippet}
+
+      <p class="resume-text">{savedText}</p>
+
+      <div class="actions">
+        <Button onclick={resume}>{t('home.resume.resume')}</Button>
+        <Button variant="secondary" onclick={discardResume}>{t('home.resume.discard')}</Button>
+      </div>
+    </Card>
+  {/if}
+
   <section class="topics" aria-labelledby="topics-title">
     <div class="topics-head">
-      <h2 id="topics-title">{t('home.topics')}</h2>
+      <div class="topics-title">
+        <h2 id="topics-title">{t('home.topics')}</h2>
+        <p class="topics-count">{t('settings.someTopics', { selected: selection.length, total: allIds.length })}</p>
+      </div>
       <Button variant="ghost" size="sm" disabled={selection.length === allIds.length} onclick={() => select(allIds)}
         >{t('home.selectAll')}</Button
       >
@@ -113,6 +174,11 @@
   </section>
 
   <Card title={t('home.startSection')} headingId="start-title">
+    <div class="mode">
+      <Segmented label={t('home.mode.label')} options={modeOptions} value={mode} onchange={changeMode} />
+      <p class="mode-hint">{t(`home.mode.${mode}Hint`)}</p>
+    </div>
+
     <p class="available" aria-live="polite">
       <strong>{tn(pool.length, 'home.availableOne', 'home.availableMany')}</strong>
       {#if pool.length > 0}<span>{t('home.testSize', { count: testSize })}</span>{/if}
@@ -133,6 +199,17 @@
     {#if blocker}<p id="start-blocker" class="blocker" role="status">{blocker}</p>{/if}
   </Card>
 </div>
+
+<ConfirmDialog
+  open={confirmingReplace}
+  title={t('home.resume.replaceTitle')}
+  body={t('home.resume.replaceBody')}
+  confirmLabel={t('home.resume.replaceConfirm')}
+  cancelLabel={t('home.resume.replaceCancel')}
+  tone="danger"
+  onconfirm={begin}
+  oncancel={() => (confirmingReplace = false)}
+/>
 
 <style>
   .page {
@@ -182,7 +259,49 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
+  }
+
+  .topics-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px 14px;
+  }
+
+  .topics-count {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--subtle);
+  }
+
+  .notice {
+    padding: 12px 16px;
+    border: 1px solid var(--warning-border);
+    border-radius: var(--radius-lg);
+    background: var(--warning-soft);
+    color: var(--warning);
+  }
+
+  .resume-text {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .mode {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .mode-hint {
+    font-size: 13px;
+    color: var(--muted);
   }
 
   h2 {
@@ -230,6 +349,10 @@
     flex-wrap: wrap;
     gap: 12px;
     margin-top: 22px;
+  }
+
+  .resume-text + .actions {
+    margin-top: 18px;
   }
 
   .blocker {

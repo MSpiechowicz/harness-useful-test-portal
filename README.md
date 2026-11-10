@@ -1,8 +1,9 @@
 # Harness Test Portal
 
 **Practice tests for AI and LLM engineering, in one local desktop app.** Pick topics and difficulty, take a timed
-quiz, and see your score with an explanation and sources for every question. Everything runs on your machine: no
-account, no telemetry, no network content fetching.
+quiz or practise without a timer, and see your score with an explanation and sources for every question. Everything
+runs on your machine: no account, no telemetry, no network content fetching. Your history and any unfinished test are
+saved locally.
 
 Part of the [harness-useful](https://github.com/MSpiechowicz/harness-useful) family.
 
@@ -12,7 +13,13 @@ Part of the [harness-useful](https://github.com/MSpiechowicz/harness-useful) fam
 - **Topics and difficulty**: choose any mix of topics and of basic, intermediate and advanced questions.
 - **Timed or relaxed**: a countdown timer (30 minutes by default, or off), and a mixed, single, multi or true/false test style.
 - **Explanations with sources**: every question explains the answer and links to its sources.
-- **Results**: your score as a percentage, with a review of every question.
+- **Practice mode**: no timer, and "Check answer" shows right or wrong, the explanation and the sources straight away.
+- **Flags and shortcuts**: flag questions to review later. Keys: 1-9 pick an option, n or Right arrow next, p or Left
+  arrow previous, f flag, c check (practice), Ctrl/Cmd+Enter submit, ? help.
+- **Results**: your score as a percentage, with a review of every question, and a retry of only the questions you got wrong.
+- **Resume**: an unfinished test is saved, and you can resume it from Home after leaving the quiz or restarting the app. The timer stops while it is paused.
+- **History**: every finished test is saved locally, with a summary, a score trend, per-topic mastery, an
+  All/Exam/Practice filter and a Clear history button.
 - **Updates**: the app updates itself from GitHub releases, with signature-checked packages.
 - **Offline content**: questions ship inside the app as plain JSON files.
 
@@ -56,7 +63,9 @@ code-signed, see [docs/release-and-updater-keys.md](docs/release-and-updater-key
 | Shuffle questions / options | On         |                                                                 |
 | Check for updates           | On         |                                                                 |
 
-Settings are stored as a JSON file in the app's data directory.
+Settings are stored as a JSON file in the app's data directory. Next to it the app keeps `history.json` and
+`session.json` (your finished tests and the unfinished one, each at most 2 MiB). In a plain browser (`bun run dev`) the
+same data goes to localStorage. A damaged file is kept as `<name>.bak` instead of being overwritten.
 
 ## Development
 

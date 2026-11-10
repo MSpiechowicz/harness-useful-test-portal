@@ -44,20 +44,23 @@
   }}
   onclick={onbackdrop}
 >
-  <h2 id={titleId}>{title}</h2>
-  <p id={bodyId}>{body}</p>
+  <!-- The padding lives here, not on the dialog, so a click on it is not mistaken for a click on the backdrop. -->
+  <div class="content">
+    <h2 id={titleId}>{title}</h2>
+    <p id={bodyId}>{body}</p>
 
-  <div class="actions">
-    <!-- svelte-ignore a11y_autofocus -->
-    <button type="button" class="cancel" autofocus onclick={oncancel}>{cancelLabel}</button>
-    <Button variant={tone === 'danger' ? 'danger' : 'primary'} onclick={onconfirm}>{confirmLabel}</Button>
+    <div class="actions">
+      <!-- svelte-ignore a11y_autofocus -->
+      <button type="button" class="cancel" autofocus onclick={oncancel}>{cancelLabel}</button>
+      <Button variant={tone === 'danger' ? 'danger' : 'primary'} onclick={onconfirm}>{confirmLabel}</Button>
+    </div>
   </div>
 </dialog>
 
 <style>
   dialog {
     width: min(460px, calc(100vw - 32px));
-    padding: 24px;
+    padding: 0;
     border: 1px solid var(--border-strong);
     border-radius: var(--radius-xl);
     background: var(--panel);
@@ -67,6 +70,10 @@
 
   dialog::backdrop {
     background: var(--overlay);
+  }
+
+  .content {
+    padding: 24px;
   }
 
   h2 {
