@@ -1,6 +1,7 @@
 //! IPC commands the page may call in the app (see `src/lib/shell/shell.ts`). Each must also be
 //! listed in `command_names.rs`, registered in `lib.rs` and granted in `capabilities/default.json`.
 
+pub mod data;
 pub mod links;
 pub mod settings;
 pub mod updates;

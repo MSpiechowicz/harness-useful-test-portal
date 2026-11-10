@@ -14,9 +14,10 @@ import {
 /**
  * Update state shared by the header pill and Settings. Only the app has an updater: in a browser everything here
  * stays idle and the UI hides it. A check that fails quietly (offline) says nothing; one the user asked for says why.
+ * `installed` means the update is on disk and only the restart is left, so no further check or install is offered.
  */
 export const updater = $state<{
-  status: 'idle' | 'checking' | 'current' | 'available' | 'unsupported' | 'error';
+  status: 'idle' | 'checking' | 'current' | 'available' | 'installed' | 'unsupported' | 'error';
   info: UpdateInfo | null;
   installing: boolean;
   progress: UpdateProgress | null;
@@ -35,7 +36,7 @@ export function checkOnStartup(): void {
 
 /** `manual` checks report "up to date" and errors; quiet ones only surface a newer version. */
 export async function checkUpdate(manual: boolean): Promise<void> {
-  if (!isShell() || updater.installing || updater.status === 'checking') return;
+  if (!isShell() || updater.installing || updater.status === 'checking' || updater.status === 'installed') return;
 
   updater.status = 'checking';
   updater.message = null;
@@ -59,7 +60,7 @@ export async function checkUpdate(manual: boolean): Promise<void> {
 
 /** Downloads and installs the update, then restarts the app. */
 export async function installUpdate(): Promise<void> {
-  if (!isShell() || updater.installing) return;
+  if (!isShell() || updater.installing || updater.status === 'installed') return;
 
   updater.installing = true;
   updater.message = null;
@@ -67,10 +68,22 @@ export async function installUpdate(): Promise<void> {
 
   try {
     await installShellUpdate((progress) => (updater.progress = progress));
-    updater.message = t('update.restarting');
-    await relaunch();
   } catch (error) {
     updater.message = t('update.failed', { error: errorText(error, t('update.unknownError')) });
+    updater.installing = false;
+    updater.progress = null;
+
+    return;
+  }
+
+  // The install succeeded; a failed restart must not look like a failed install or bring the Install action back.
+  updater.status = 'installed';
+  updater.message = t('update.restarting');
+
+  try {
+    await relaunch();
+  } catch (error) {
+    updater.message = t('update.restartFailed', { error: errorText(error, t('update.unknownError')) });
     updater.installing = false;
     updater.progress = null;
   }

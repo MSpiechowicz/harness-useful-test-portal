@@ -9,11 +9,12 @@
 //! settings and renames it over them, so a crash never leaves a half-written file.
 
 use std::fmt;
-use std::fs::{self, File};
-use std::io::{self, Read, Write};
-use std::path::{Path, PathBuf};
+use std::io;
+use std::path::Path;
 
 use serde::{Deserialize, Serialize};
+
+use crate::files::{move_aside, read_limited, write_atomically};
 
 /// File name of the settings inside the app config directory.
 pub const SETTINGS_FILE: &str = "settings.json";
@@ -237,7 +238,7 @@ fn is_slug(value: &str) -> bool {
 /// `<path>.bak`, replacing an older backup, and the defaults are returned. Only a file that exists
 /// but cannot be read is an error.
 pub fn load(path: &Path) -> Result<Settings, SettingsError> {
-    let bytes = match read_limited(path) {
+    let bytes = match read_limited(path, MAX_FILE_BYTES) {
         Ok(bytes) => bytes,
         Err(error) if error.kind() == io::ErrorKind::NotFound => return Ok(Settings::default()),
         Err(error) => return Err(error.into()),
@@ -246,7 +247,7 @@ pub fn load(path: &Path) -> Result<Settings, SettingsError> {
     match parse(&bytes) {
         Ok(settings) => Ok(settings),
         Err(reason) => {
-            move_aside(path, &reason);
+            keep_as_backup(path, &reason);
             Ok(Settings::default())
         }
     }
@@ -265,14 +266,6 @@ pub fn save(path: &Path, settings: Settings) -> Result<Settings, SettingsError> 
     Ok(settings)
 }
 
-/// Reads the file, or fails with `InvalidData` when it is larger than [`MAX_FILE_BYTES`].
-fn read_limited(path: &Path) -> io::Result<Vec<u8>> {
-    let mut bytes = Vec::new();
-    File::open(path)?.take(MAX_FILE_BYTES + 1).read_to_end(&mut bytes)?;
-
-    Ok(bytes)
-}
-
 fn parse(bytes: &[u8]) -> Result<Settings, String> {
     if bytes.len() as u64 > MAX_FILE_BYTES {
         return Err("the file is too large".to_owned());
@@ -285,10 +278,8 @@ fn parse(bytes: &[u8]) -> Result<Settings, String> {
 }
 
 /// Renames a settings file that cannot be used to `<name>.bak` so the user's data is not lost.
-fn move_aside(path: &Path, reason: &str) {
-    let backup = sibling(path, ".bak");
-
-    match fs::rename(path, &backup) {
+fn keep_as_backup(path: &Path, reason: &str) {
+    match move_aside(path) {
         Ok(()) => tracing::warn!(
             reason,
             "the settings file is invalid; kept as a backup, using the defaults"
@@ -299,41 +290,15 @@ fn move_aside(path: &Path, reason: &str) {
     }
 }
 
-fn write_atomically(path: &Path, contents: &[u8]) -> io::Result<()> {
-    if let Some(directory) = path.parent() {
-        fs::create_dir_all(directory)?;
-    }
-
-    let temporary = sibling(path, ".tmp");
-
-    let written = write_synced(&temporary, contents).and_then(|()| fs::rename(&temporary, path));
-    if written.is_err() {
-        fs::remove_file(&temporary).ok();
-    }
-
-    written
-}
-
-fn write_synced(path: &Path, contents: &[u8]) -> io::Result<()> {
-    let mut file = File::create(path)?;
-    file.write_all(contents)?;
-
-    file.sync_all()
-}
-
-/// `path` with `suffix` appended to its file name.
-fn sibling(path: &Path, suffix: &str) -> PathBuf {
-    let mut name = path.as_os_str().to_owned();
-    name.push(suffix);
-
-    PathBuf::from(name)
-}
-
 #[cfg(test)]
 mod tests {
+    use std::fs;
+    use std::path::PathBuf;
+
     use serde_json::{Value, json};
 
     use super::*;
+    use crate::files::sibling;
     use crate::test_support::TempDir;
 
     fn settings_file(directory: &TempDir) -> PathBuf {

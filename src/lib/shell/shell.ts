@@ -1,6 +1,17 @@
 import { Channel, invoke } from '@tauri-apps/api/core';
-import { DEFAULT_SETTINGS, parseSettings, type Settings } from '../settings/schema';
+import type { QuizMode } from '../quiz/state';
+import { parseSettings, type Settings } from '../settings/schema';
 import { browserStorage, readStoredSettings, writeStoredSettings } from '../settings/storage';
+import {
+  browserDocumentStorage,
+  readDocument,
+  readStoredMode,
+  writeDocument,
+  writeStoredMode,
+  type DocumentName,
+} from '../storage/documents';
+
+export type { DocumentName } from '../storage/documents';
 
 /** A newer release the app's updater found. */
 export interface UpdateInfo {
@@ -44,6 +55,11 @@ export function isUnsupported(error: unknown): boolean {
   return isShellError(error) && error.code === 'unsupported';
 }
 
+/** The code of a failed command, or null when the error is not one of the backend's. */
+export function errorCode(error: unknown): ShellErrorCode | null {
+  return isShellError(error) ? error.code : null;
+}
+
 /** A failed command rejects with a plain string or an error object. */
 export function errorText(error: unknown, fallback: string): string {
   if (typeof error === 'string') return error;
@@ -53,15 +69,44 @@ export function errorText(error: unknown, fallback: string): string {
   return fallback;
 }
 
-/** Saved settings: the backend's file in the app, localStorage in a browser. Defaults when nothing usable is stored. */
+/**
+ * Saved settings: the backend's file in the app, localStorage in a browser. Defaults when nothing is stored. Rejects
+ * when the backend cannot read its file, so the caller can tell that apart from there being nothing to read.
+ */
 export async function loadSettings(): Promise<Settings> {
   if (!isShell()) return readStoredSettings(browserStorage());
 
-  try {
-    return parseSettings(await invoke<unknown>('settings_load'));
-  } catch {
-    return { ...DEFAULT_SETTINGS };
+  return parseSettings(await invoke<unknown>('settings_load'));
+}
+
+/**
+ * A stored document: null when there is none. Rejects with `{ code, message }`: `invalidInput` when it was damaged
+ * (the backend keeps a `.bak` copy) and `io` when it could not be read at all.
+ */
+export async function loadDocument(name: DocumentName): Promise<unknown> {
+  if (!isShell()) return readDocument(browserDocumentStorage(), name);
+
+  return invoke<unknown>('data_load', { name });
+}
+
+/** Stores a document; `null` clears it. Rejects with `{ code, message }` when it cannot be written. */
+export async function saveDocument(name: DocumentName, value: unknown): Promise<void> {
+  if (!isShell()) {
+    writeDocument(browserDocumentStorage(), name, value);
+
+    return;
   }
+
+  await invoke<void>('data_save', { name, value });
+}
+
+/** The mode (exam or practice) picked last time; kept on this device only. */
+export function readMode(): QuizMode {
+  return readStoredMode(browserStorage());
+}
+
+export function writeMode(mode: QuizMode): void {
+  writeStoredMode(browserStorage(), mode);
 }
 
 /** Saves and returns the normalized settings. Rejects when the backend refuses them. */

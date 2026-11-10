@@ -7,6 +7,8 @@
   "permissions": [
     "allow-settings-load",
     "allow-settings-save",
+    "allow-data-load",
+    "allow-data-save",
     "allow-update-check",
     "allow-update-install",
     "allow-app-relaunch",

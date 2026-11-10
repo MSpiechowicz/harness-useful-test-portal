@@ -6,6 +6,8 @@
 pub const COMMANDS: &[&str] = &[
     "settings_load",
     "settings_save",
+    "data_load",
+    "data_save",
     "update_check",
     "update_install",
     "app_relaunch",

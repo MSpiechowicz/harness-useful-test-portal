@@ -11,6 +11,7 @@
   const pathname = $derived(page.url.pathname);
   const links = $derived([
     { href: '/', label: t('nav.home') },
+    { href: '/history', label: t('nav.history') },
     { href: '/settings', label: t('nav.settings') },
   ]);
 

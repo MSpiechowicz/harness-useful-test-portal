@@ -7,7 +7,10 @@
   import Footer from '$lib/components/layout/Footer.svelte';
   import Header from '$lib/components/layout/Header.svelte';
   import SkipLink from '$lib/components/layout/SkipLink.svelte';
+  import { loadCatalog } from '$lib/content/load';
+  import { initHistory } from '$lib/history/history.svelte';
   import { setLocale } from '$lib/i18n';
+  import { initResume } from '$lib/quiz/session.svelte';
   import { initSettings, settingsState } from '$lib/settings/settings.svelte';
   import { browserStorage } from '$lib/settings/storage';
   import { checkOnStartup } from '$lib/shell/update.svelte';
@@ -21,7 +24,7 @@
 
   // Set the language before the template re-renders; the key below rebuilds the tree in the new one.
   $effect.pre(() => {
-    setLocale(language);
+    document.documentElement.lang = setLocale(language);
   });
 
   // Wait for the saved settings: applying the defaults first would flash the wrong theme and overwrite the cache.
@@ -48,6 +51,12 @@
 
   onMount(async () => {
     await initSettings();
+
+    // Messages made while loading (notices) are written in the language the settings ask for.
+    setLocale(settingsState.value.language);
+
+    await initHistory();
+    void initResume(loadCatalog());
     checkOnStartup();
   });
 </script>
