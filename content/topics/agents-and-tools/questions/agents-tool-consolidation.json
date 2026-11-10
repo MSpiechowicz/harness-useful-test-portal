@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "agents-tool-consolidation",
+  "type": "single",
+  "difficulty": "intermediate",
+  "prompt": "You are exposing an address book to an agent. Which tool design does Anthropic recommend?",
+  "options": [
+    {
+      "id": "a",
+      "text": "A `list_contacts` tool that returns every contact so the agent can scan them."
+    },
+    {
+      "id": "b",
+      "text": "A `search_contacts` tool that returns only matching contacts."
+    },
+    {
+      "id": "c",
+      "text": "A `get_contact_by_uuid` tool and nothing else."
+    },
+    {
+      "id": "d",
+      "text": "One generic `run_query` tool that accepts raw SQL."
+    }
+  ],
+  "correct": ["b"],
+  "explanation": "Agents have limited context, so a tool that returns all contacts wastes it on irrelevant tokens, like reading an address book page by page. Targeted tools such as `search_contacts` match how a human would skip to the relevant page.",
+  "sources": [
+    {
+      "title": "Writing effective tools for agents (Anthropic)",
+      "url": "https://www.anthropic.com/research/writing-tools-for-agents"
+    }
+  ],
+  "tags": ["tool-design", "context"]
+}

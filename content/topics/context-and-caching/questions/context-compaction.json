@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "context-compaction",
+  "type": "single",
+  "difficulty": "intermediate",
+  "prompt": "A long agent session is approaching the context window limit. What does compaction do?",
+  "options": [
+    {
+      "id": "a",
+      "text": "It summarizes the conversation so far and continues in a new context window that starts from the summary."
+    },
+    {
+      "id": "b",
+      "text": "It compresses the tokens with a lossless algorithm so the same text takes fewer tokens."
+    },
+    {
+      "id": "c",
+      "text": "It raises the model's maximum context size for the session."
+    },
+    {
+      "id": "d",
+      "text": "It moves the oldest messages into the system prompt unchanged."
+    }
+  ],
+  "correct": ["a"],
+  "explanation": "Compaction replaces older turns with a summary and reinitiates the context from it, which keeps the active context small. The art lies in what to keep: overly aggressive compaction can drop subtle details whose importance only appears later.",
+  "sources": [
+    {
+      "title": "Effective context engineering for AI agents (Anthropic)",
+      "url": "https://www.anthropic.com/research/effective-context-engineering-for-ai-agents"
+    },
+    {
+      "title": "Compaction (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/compaction"
+    }
+  ],
+  "tags": ["compaction", "context-engineering"]
+}

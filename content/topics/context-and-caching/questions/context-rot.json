@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "context-rot",
+  "type": "single",
+  "difficulty": "basic",
+  "prompt": "What does the term \"context rot\" describe?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Cached prompts expiring after a few minutes."
+    },
+    {
+      "id": "b",
+      "text": "Accuracy and recall degrading as the number of tokens in the context grows."
+    },
+    {
+      "id": "c",
+      "text": "Old messages being deleted by the API when the window fills."
+    },
+    {
+      "id": "d",
+      "text": "Tool definitions becoming outdated as APIs change."
+    }
+  ],
+  "correct": ["b"],
+  "explanation": "Anthropic describes context rot as accuracy and recall degrading as token count grows. A larger window does not make more context automatically better, so curating what is in context matters as much as how much fits.",
+  "sources": [
+    {
+      "title": "Context windows (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/context-windows"
+    },
+    {
+      "title": "Effective context engineering for AI agents (Anthropic)",
+      "url": "https://www.anthropic.com/research/effective-context-engineering-for-ai-agents"
+    }
+  ],
+  "tags": ["context-window", "context-engineering"]
+}

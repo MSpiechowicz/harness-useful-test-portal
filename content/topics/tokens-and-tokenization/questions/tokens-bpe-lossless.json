@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "tokens-bpe-lossless",
+  "type": "true-false",
+  "difficulty": "basic",
+  "prompt": "Byte pair encoding as used by OpenAI's tiktoken is reversible and lossless: decoding the token IDs gives back the original text.",
+  "correct": true,
+  "explanation": "The tiktoken README lists BPE's properties: it is reversible and lossless, works on arbitrary text even if it was not in the tokenizer's training data, and compresses text (about 4 bytes per token on average in practice).",
+  "sources": [
+    {
+      "title": "tiktoken README (OpenAI)",
+      "url": "https://github.com/openai/tiktoken"
+    }
+  ],
+  "tags": ["bpe", "tokenization"]
+}

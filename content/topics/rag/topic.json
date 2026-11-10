@@ -1,0 +1,8 @@
+{
+  "$schema": "../../schema/topic.schema.json",
+  "id": "rag",
+  "title": "Retrieval-augmented generation",
+  "description": "Retrieval pipelines for LLMs: contextual retrieval, hybrid BM25 plus embeddings, reranking and citations.",
+  "group": "Working with LLMs",
+  "order": 60
+}

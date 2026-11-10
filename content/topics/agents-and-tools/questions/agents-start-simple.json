@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "agents-start-simple",
+  "type": "true-false",
+  "difficulty": "basic",
+  "prompt": "Anthropic recommends starting with the most elaborate multi-agent framework available and removing complexity later.",
+  "correct": false,
+  "explanation": "The guidance is the opposite: find the simplest solution possible and add complexity only when it demonstrably improves outcomes. Often a single LLM call with retrieval and in-context examples is enough, and starting with direct API calls keeps prompts and responses visible.",
+  "sources": [
+    {
+      "title": "Building effective agents (Anthropic)",
+      "url": "https://www.anthropic.com/research/building-effective-agents"
+    }
+  ],
+  "tags": ["agents", "design"]
+}

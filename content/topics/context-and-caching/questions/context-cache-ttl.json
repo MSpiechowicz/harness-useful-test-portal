@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "context-cache-ttl",
+  "type": "true-false",
+  "difficulty": "basic",
+  "prompt": "By default a prompt cache entry has a 5-minute lifetime, and that lifetime is refreshed at no additional cost each time the cached content is used.",
+  "correct": true,
+  "explanation": "The caching docs state a default 5-minute lifetime that is refreshed for no additional cost on each use. A 1-hour duration is available at additional cost when 5 minutes is too short.",
+  "sources": [
+    {
+      "title": "Prompt caching (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+    }
+  ],
+  "tags": ["prompt-caching", "ttl"]
+}

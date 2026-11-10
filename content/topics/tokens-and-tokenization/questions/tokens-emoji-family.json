@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "tokens-emoji-family",
+  "type": "multi",
+  "difficulty": "advanced",
+  "prompt": "The family emoji is the sequence man, ZERO WIDTH JOINER (U+200D), woman, ZWJ, girl. Which statements are true?",
+  "options": [
+    {
+      "id": "five-cp",
+      "text": "It consists of five Unicode code points: three emoji and two ZWJ characters."
+    },
+    {
+      "id": "one-gc",
+      "text": "UAX #29 treats the whole emoji ZWJ sequence as a single extended grapheme cluster."
+    },
+    {
+      "id": "one-token",
+      "text": "Every tokenizer encodes it as exactly one token."
+    },
+    {
+      "id": "tok-varies",
+      "text": "How many tokens it takes depends on the tokenizer, and there is no guarantee of one token per grapheme cluster."
+    },
+    {
+      "id": "equal-counts",
+      "text": "Its grapheme cluster count equals its code point count."
+    }
+  ],
+  "correct": ["five-cp", "one-gc", "tok-varies"],
+  "explanation": "Rule GB11 of UAX #29 forbids breaking within emoji ZWJ sequences, so five code points form one grapheme cluster. Tokens are a separate unit defined by the tokenizer: they can be words, subwords, characters or bytes, and counts vary by model.",
+  "sources": [
+    {
+      "title": "UAX #29: Unicode Text Segmentation",
+      "url": "https://www.unicode.org/reports/tr29/"
+    },
+    {
+      "title": "Glossary: Tokens (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/about-claude/glossary"
+    }
+  ],
+  "tags": ["unicode", "grapheme-cluster", "emoji"]
+}

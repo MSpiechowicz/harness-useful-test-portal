@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "embeddings-measure-ann-recall",
+  "type": "true-false",
+  "difficulty": "advanced",
+  "prompt": "To monitor the recall of an approximate vector index in production, you can compare its results with the results of an exact nearest neighbor search.",
+  "correct": true,
+  "explanation": "The pgvector README advises monitoring recall by comparing approximate search results with exact search (for example, disabling index scans for a transaction). Recall is the fraction of the true nearest neighbors the approximate index returns.",
+  "sources": [
+    {
+      "title": "pgvector README",
+      "url": "https://github.com/pgvector/pgvector"
+    }
+  ],
+  "tags": ["ann", "recall", "monitoring"]
+}

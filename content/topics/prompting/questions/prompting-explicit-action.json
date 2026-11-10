@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "prompting-explicit-action",
+  "type": "single",
+  "difficulty": "basic",
+  "prompt": "You want Claude to actually edit a function in your codebase, not just talk about it. Which request is most likely to get the edits made?",
+  "options": [
+    {
+      "id": "a",
+      "text": "\"Can you suggest some changes to improve this function?\""
+    },
+    {
+      "id": "b",
+      "text": "\"Change this function to improve its performance.\""
+    },
+    {
+      "id": "c",
+      "text": "\"Maybe the function could be faster. What do you think?\""
+    },
+    {
+      "id": "d",
+      "text": "\"I wonder whether this function has room for improvement.\""
+    }
+  ],
+  "correct": ["b"],
+  "explanation": "Current Claude models follow instructions precisely. A request phrased as \"can you suggest\" may yield suggestions only, so for Claude to take action the prompt should state the action explicitly, for example \"Change this function to improve its performance.\"",
+  "sources": [
+    {
+      "title": "Prompting best practices (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices"
+    }
+  ],
+  "tags": ["instructions", "tool-use"]
+}

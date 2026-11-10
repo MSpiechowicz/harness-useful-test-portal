@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "tokens-combining-accent",
+  "type": "single",
+  "difficulty": "intermediate",
+  "prompt": "The text \"é\" is written as the letter `e` (U+0065) followed by a combining acute accent (U+0301). How many Unicode code points and how many grapheme clusters does it contain?",
+  "options": [
+    {
+      "id": "a",
+      "text": "2 code points, 1 grapheme cluster"
+    },
+    {
+      "id": "b",
+      "text": "1 code point, 1 grapheme cluster"
+    },
+    {
+      "id": "c",
+      "text": "2 code points, 2 grapheme clusters"
+    },
+    {
+      "id": "d",
+      "text": "1 code point, 2 grapheme clusters"
+    }
+  ],
+  "correct": ["a"],
+  "explanation": "A grapheme cluster is a \"user-perceived character\". Under UAX #29 the nonspacing combining mark continues the cluster started by the base letter, so two code points form one grapheme cluster. A precomposed U+00E9 would be one code point.",
+  "sources": [
+    {
+      "title": "UAX #29: Unicode Text Segmentation",
+      "url": "https://www.unicode.org/reports/tr29/"
+    },
+    {
+      "title": "Unicode Glossary",
+      "url": "https://www.unicode.org/glossary/"
+    }
+  ],
+  "tags": ["unicode", "grapheme-cluster"]
+}

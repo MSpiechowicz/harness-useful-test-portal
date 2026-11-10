@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "prompting-xml-structure",
+  "type": "true-false",
+  "difficulty": "basic",
+  "prompt": "In a complex prompt that mixes instructions, context, examples and variable input, wrapping each kind of content in its own descriptive XML tag can reduce misinterpretation.",
+  "correct": true,
+  "explanation": "XML tags help Claude parse prompts unambiguously. Use consistent, descriptive tag names (for example `<instructions>`, `<context>`, `<input>`) and nest tags when the content has a natural hierarchy.",
+  "sources": [
+    {
+      "title": "Prompting best practices (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices"
+    }
+  ],
+  "tags": ["xml", "structure"]
+}

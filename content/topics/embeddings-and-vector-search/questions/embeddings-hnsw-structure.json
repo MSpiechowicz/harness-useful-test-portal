@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "embeddings-hnsw-structure",
+  "type": "single",
+  "difficulty": "intermediate",
+  "prompt": "What is HNSW (Hierarchical Navigable Small World)?",
+  "options": [
+    {
+      "id": "a",
+      "text": "A multi-layer graph of proximity graphs; search starts in the sparse upper layer and descends, scaling roughly logarithmically."
+    },
+    {
+      "id": "b",
+      "text": "A clustering method that assigns vectors to Voronoi cells and probes the closest cells."
+    },
+    {
+      "id": "c",
+      "text": "A compression method that splits vectors into sub-vectors and quantizes each."
+    },
+    {
+      "id": "d",
+      "text": "A keyword index based on term frequency and inverse document frequency."
+    }
+  ],
+  "correct": ["a"],
+  "explanation": "Malkov and Yashunin describe HNSW as an incrementally built multi-layer structure of proximity graphs. Each element's maximum layer is drawn from an exponentially decaying distribution, and starting at the top layer allows logarithmic complexity scaling. Option b describes IVF, c product quantization and d BM25 foundations.",
+  "sources": [
+    {
+      "title": "Efficient and robust approximate nearest neighbor search using HNSW graphs (Malkov & Yashunin)",
+      "url": "https://arxiv.org/abs/1603.09320"
+    },
+    {
+      "title": "Faiss indexes (Faiss wiki)",
+      "url": "https://github.com/facebookresearch/faiss/wiki/Faiss-indexes"
+    }
+  ],
+  "tags": ["hnsw", "ann"]
+}

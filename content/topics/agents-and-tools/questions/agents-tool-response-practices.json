@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "agents-tool-response-practices",
+  "type": "multi",
+  "difficulty": "intermediate",
+  "prompt": "Which practices does Anthropic recommend for what your tools return to an agent?",
+  "options": [
+    {
+      "id": "names",
+      "text": "Prefer natural-language names over cryptic identifiers such as raw UUIDs where possible."
+    },
+    {
+      "id": "format",
+      "text": "Offer a parameter such as `response_format` so the agent can request concise or detailed output."
+    },
+    {
+      "id": "limits",
+      "text": "Use pagination, filtering or truncation with sensible defaults for large responses."
+    },
+    {
+      "id": "dump",
+      "text": "Return the full raw API payload with every technical field for maximum flexibility."
+    },
+    {
+      "id": "codes",
+      "text": "Return short opaque error codes so the agent does not waste tokens on explanations."
+    }
+  ],
+  "correct": ["names", "format", "limits"],
+  "explanation": "Return high-signal information: resolve cryptic IDs to meaningful names, let the agent choose concise or detailed responses, and bound large outputs. Error messages should be specific and actionable rather than opaque codes or tracebacks.",
+  "sources": [
+    {
+      "title": "Writing effective tools for agents (Anthropic)",
+      "url": "https://www.anthropic.com/research/writing-tools-for-agents"
+    }
+  ],
+  "tags": ["tool-design", "token-efficiency"]
+}

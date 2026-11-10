@@ -1,0 +1,8 @@
+{
+  "$schema": "../../schema/topic.schema.json",
+  "id": "embeddings-and-vector-search",
+  "title": "Embeddings, indexing & vector databases",
+  "description": "Similarity metrics, HNSW and IVF indexes, approximate nearest neighbor recall and filtering.",
+  "group": "Working with LLMs",
+  "order": 50
+}

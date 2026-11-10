@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "embeddings-filtered-search",
+  "type": "multi",
+  "difficulty": "advanced",
+  "prompt": "A pgvector query with `WHERE category_id = 123 ORDER BY embedding <-> ... LIMIT 10` on an HNSW index returns fewer than 10 rows, because filtering happens after the index scan. Which fixes does the pgvector README suggest?",
+  "options": [
+    {
+      "id": "iter",
+      "text": "Enable iterative index scans (`hnsw.iterative_scan`) so more of the index is scanned when needed."
+    },
+    {
+      "id": "partial",
+      "text": "If filtering by only a few distinct values, create a partial index for each."
+    },
+    {
+      "id": "partition",
+      "text": "If filtering by many different values, partition the table."
+    },
+    {
+      "id": "lower-ef",
+      "text": "Lower `hnsw.ef_search` so the scan is stricter."
+    },
+    {
+      "id": "drop-order",
+      "text": "Remove the ORDER BY clause so the index is skipped but results stay ranked."
+    }
+  ],
+  "correct": ["iter", "partial", "partition"],
+  "explanation": "With approximate indexes the filter is applied after the scan: at the default `ef_search` of 40, a condition matching 10% of rows leaves about 4 rows on average. The README recommends iterative index scans, partial indexes for few values and partitioning for many.",
+  "sources": [
+    {
+      "title": "pgvector README",
+      "url": "https://github.com/pgvector/pgvector"
+    }
+  ],
+  "tags": ["filtering", "hnsw", "pgvector"]
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "evals-grading-method-choice",
+  "type": "single",
+  "difficulty": "intermediate",
+  "prompt": "You are evaluating a ticket classifier that must output one of five fixed labels. Which grading method does Anthropic suggest first?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Human graders reading every output."
+    },
+    {
+      "id": "b",
+      "text": "LLM-based grading with a free-form rubric."
+    },
+    {
+      "id": "c",
+      "text": "Code-based grading such as exact match, which is fastest, most reliable and extremely scalable."
+    },
+    {
+      "id": "d",
+      "text": "A/B testing in production only."
+    }
+  ],
+  "correct": ["c"],
+  "explanation": "Pick the fastest, most reliable, most scalable method. Code-based grading (exact or string match) suits categorical answers but lacks nuance; LLM-based grading is flexible but needs reliability testing; human grading is highest quality but slow and expensive.",
+  "sources": [
+    {
+      "title": "Define success criteria and build evaluations (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/test-and-evaluate/develop-tests"
+    }
+  ],
+  "tags": ["grading", "code-graded"]
+}

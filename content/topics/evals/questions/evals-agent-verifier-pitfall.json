@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "evals-agent-verifier-pitfall",
+  "type": "single",
+  "difficulty": "advanced",
+  "prompt": "You are building evaluation tasks for an agent's tools. Which verifier design is a pitfall Anthropic warns about?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Pairing each task prompt with a verifiable response or outcome."
+    },
+    {
+      "id": "b",
+      "text": "An overly strict verifier that rejects correct answers because of formatting, punctuation or valid alternative phrasings."
+    },
+    {
+      "id": "c",
+      "text": "Using realistic tasks that need several tool calls."
+    },
+    {
+      "id": "d",
+      "text": "Tracking metrics such as tool-call count, runtime and token use."
+    }
+  ],
+  "correct": ["b"],
+  "explanation": "Verifiers can be a simple exact comparison or an LLM judge, but should avoid spurious failures from formatting or phrasing differences. Also avoid over-specifying a single expected tool-call path, since several strategies can be valid.",
+  "sources": [
+    {
+      "title": "Writing effective tools for agents (Anthropic)",
+      "url": "https://www.anthropic.com/research/writing-tools-for-agents"
+    }
+  ],
+  "tags": ["agents", "verifier"]
+}

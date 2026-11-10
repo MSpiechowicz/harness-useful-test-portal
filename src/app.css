@@ -1,0 +1,320 @@
+/* Global styles: design tokens, reset and base typography, shared with the harness-useful website.
+   Dark is the website's palette; the light palette (`:root[data-theme='light']`) is app-only.
+   Fonts are imported in routes/+layout.svelte (@fontsource-variable/inter and jetbrains-mono). */
+
+:root {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg: #07090a;
+  --panel: #0c1112;
+  --panel-alt: #0a0e0f;
+
+  /* Borders */
+  --border-soft: #172022;
+  --border: #1c2829;
+  --border-strong: #22302f;
+
+  /* Text */
+  --text: #d7e0dd;
+  --text-strong: #f2f7f5;
+  --muted: #93a39f;
+  --subtle: #6f807c;
+
+  /* Accent */
+  --accent: #5eeac4;
+  --accent-hover: #b7f7e4;
+  --accent-ink: #04110d;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-2xl: 16px;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 72px;
+  --space-9: 96px;
+
+  /* Layout */
+  --container: 1240px;
+  --gutter: 24px;
+  /* Vertical padding of a page section, the same above and below so every gap between sections matches
+     (two plain sections stack to twice this). */
+  --section-space: 64px;
+
+  /* Fonts */
+  --font-sans: 'Inter Variable', Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  /* Elevation */
+  --shadow-frame: 0 40px 80px rgb(0 0 0 / 55%);
+}
+
+/* App tokens: states the website has no use for. Not on :root so the shared token block stays identical. */
+
+html {
+  --danger: #f87171;
+  --danger-soft: rgb(248 113 113 / 12%);
+  --danger-border: #5e2a2a;
+  --accent-soft: rgb(94 234 196 / 10%);
+  --accent-border: #1f5a4a;
+  --warning: #fbbf24;
+  --warning-soft: rgb(251 191 36 / 12%);
+  --warning-border: #5e4512;
+  --overlay: rgb(3 5 5 / 72%);
+  --selection: rgb(94 234 196 / 30%);
+}
+
+/* Light theme: set by static/theme-boot.js and routes/+layout.svelte through <html data-theme>.
+   Overrides the website tokens too, so the website's own block above stays untouched. */
+
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: #f6f8f7;
+  --panel: #ffffff;
+  --panel-alt: #eef2f1;
+
+  --border-soft: #e2e8e6;
+  --border: #d5dddb;
+  --border-strong: #c3cecb;
+
+  --text: #24302d;
+  --text-strong: #0b1210;
+  --muted: #4f5d59;
+  --subtle: #616e6a;
+
+  --accent: #08745b;
+  --accent-hover: #055a46;
+  --accent-ink: #ffffff;
+
+  --shadow-frame: 0 24px 60px rgb(16 24 22 / 14%);
+
+  --danger: #b91c1c;
+  --danger-soft: rgb(185 28 28 / 8%);
+  --danger-border: #f0b4b4;
+  --accent-soft: rgb(8 116 91 / 8%);
+  --accent-border: #9fd6c6;
+  --warning: #92400e;
+  --warning-soft: rgb(217 119 6 / 10%);
+  --warning-border: #f1c98a;
+  --overlay: rgb(15 23 21 / 40%);
+  --selection: rgb(8 116 91 / 22%);
+}
+
+/* Reset */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+dl,
+dd,
+pre {
+  margin: 0;
+}
+
+img,
+picture,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--font-mono);
+}
+
+a {
+  color: var(--accent);
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+/* Checkboxes and radios: drawn from the tokens instead of the platform widget (GTK, Aqua, Fluent all differ).
+   The custom switch (role="switch") draws its own track and is left alone. */
+
+input:is([type='checkbox'], [type='radio']):not([role='switch']) {
+  appearance: none;
+  display: inline-grid;
+  flex: none;
+  place-content: center;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--subtle);
+  border-radius: 5px;
+  background: var(--panel-alt);
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s;
+}
+
+input[type='radio']:not([role='switch']) {
+  border-radius: 50%;
+}
+
+input:is([type='checkbox'], [type='radio']):not([role='switch']):not(:disabled):hover {
+  border-color: var(--accent);
+}
+
+input:is([type='checkbox'], [type='radio']):not([role='switch']):disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+input[type='checkbox']:not([role='switch'])::before {
+  content: '';
+  width: 5px;
+  height: 9px;
+  border: solid var(--accent-ink);
+  border-width: 0 2px 2px 0;
+  transform: translateY(-1px) rotate(45deg) scale(0);
+  transition: transform 0.12s;
+}
+
+input[type='checkbox']:not([role='switch']):checked {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+input[type='checkbox']:not([role='switch']):checked::before {
+  transform: translateY(-1px) rotate(45deg) scale(1);
+}
+
+input[type='radio']:not([role='switch'])::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: scale(0);
+  transition: transform 0.12s;
+}
+
+input[type='radio']:not([role='switch']):checked {
+  border-color: var(--accent);
+}
+
+input[type='radio']:not([role='switch']):checked::before {
+  transform: scale(1);
+}
+
+/* Focus, selection */
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--selection);
+  color: var(--text-strong);
+}
+
+/* Utilities */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* The wrapper SvelteKit puts around the page: no box of its own, so body stays the flex column. */
+
+.app-root {
+  display: contents;
+}
+
+/* Inline code in question text, rendered from `backticks` */
+
+.inline-code {
+  padding: 1px 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--panel-alt);
+  color: var(--text-strong);
+  font-size: 0.9em;
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

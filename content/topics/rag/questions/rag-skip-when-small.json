@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "rag-skip-when-small",
+  "type": "single",
+  "difficulty": "intermediate",
+  "prompt": "When does Anthropic say you can skip RAG entirely?",
+  "options": [
+    {
+      "id": "a",
+      "text": "When the knowledge base is small enough to fit in the context window: put it all in the prompt, using prompt caching to cut latency and cost."
+    },
+    {
+      "id": "b",
+      "text": "Never; every grounded application needs a vector database."
+    },
+    {
+      "id": "c",
+      "text": "When the documents are in PDF format."
+    },
+    {
+      "id": "d",
+      "text": "When the user questions are short."
+    }
+  ],
+  "correct": ["a"],
+  "explanation": "The Contextual Retrieval post notes that a sufficiently small knowledge base can go straight into the prompt with no RAG, and prompt caching makes that faster and cheaper. As the knowledge base grows beyond the window, a scalable retrieval approach is needed.",
+  "sources": [
+    {
+      "title": "Introducing Contextual Retrieval (Anthropic)",
+      "url": "https://www.anthropic.com/research/contextual-retrieval"
+    }
+  ],
+  "tags": ["rag", "design"]
+}

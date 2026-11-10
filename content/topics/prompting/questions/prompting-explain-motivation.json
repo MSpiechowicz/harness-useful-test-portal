@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "prompting-explain-motivation",
+  "type": "single",
+  "difficulty": "basic",
+  "prompt": "Your prompt says \"NEVER use ellipses\" because the output goes to a text-to-speech engine. What is the best improvement?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Repeat the rule in capital letters at the start and end of the prompt."
+    },
+    {
+      "id": "b",
+      "text": "Say that ellipses are forbidden by company policy and leave it there."
+    },
+    {
+      "id": "c",
+      "text": "Explain why: the response is read aloud by a text-to-speech engine that cannot pronounce ellipses."
+    },
+    {
+      "id": "d",
+      "text": "Remove the rule and post-process the output with a regular expression only."
+    }
+  ],
+  "correct": ["c"],
+  "explanation": "Giving the motivation behind an instruction lets Claude understand your goal and generalize from it (for example, avoiding other symbols a speech engine cannot read), which usually beats a bare prohibition.",
+  "sources": [
+    {
+      "title": "Prompting best practices (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices"
+    }
+  ],
+  "tags": ["instructions"]
+}

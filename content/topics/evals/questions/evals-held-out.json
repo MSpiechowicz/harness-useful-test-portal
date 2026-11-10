@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "evals-held-out",
+  "type": "single",
+  "difficulty": "intermediate",
+  "prompt": "Why should you keep a held-out set of eval cases while iterating on a prompt or on tool descriptions?",
+  "options": [
+    {
+      "id": "a",
+      "text": "It makes the eval run faster."
+    },
+    {
+      "id": "b",
+      "text": "It lets you check that improvements are not just overfitting to the cases you tuned against."
+    },
+    {
+      "id": "c",
+      "text": "It removes the need for success criteria."
+    },
+    {
+      "id": "d",
+      "text": "It lets the grader see the answers in advance."
+    }
+  ],
+  "correct": ["b"],
+  "explanation": "The eval-driven loop ends with testing against held-out evals before shipping. Anthropic's tools work also relied on held-out test sets so that improvements to tools were not overfitting to the training evaluations.",
+  "sources": [
+    {
+      "title": "Define success criteria and build evaluations (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/test-and-evaluate/develop-tests"
+    },
+    {
+      "title": "Writing effective tools for agents (Anthropic)",
+      "url": "https://www.anthropic.com/research/writing-tools-for-agents"
+    }
+  ],
+  "tags": ["held-out", "overfitting"]
+}

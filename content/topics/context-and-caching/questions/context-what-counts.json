@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "context-what-counts",
+  "type": "multi",
+  "difficulty": "basic",
+  "prompt": "Which of these count toward a request's context window when using the Claude API?",
+  "options": [
+    {
+      "id": "system",
+      "text": "The system prompt."
+    },
+    {
+      "id": "tools",
+      "text": "Your tool definitions."
+    },
+    {
+      "id": "content",
+      "text": "Every message, including tool results, images and documents."
+    },
+    {
+      "id": "output",
+      "text": "The output Claude generates, including its extended thinking."
+    },
+    {
+      "id": "training",
+      "text": "The corpus the model was trained on."
+    }
+  ],
+  "correct": ["system", "tools", "content", "output"],
+  "explanation": "The context window is the model's working memory for a request: everything in the request plus the response it generates counts. It is different from the training data, which is not part of the context.",
+  "sources": [
+    {
+      "title": "Context windows (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/context-windows"
+    }
+  ],
+  "tags": ["context-window"]
+}

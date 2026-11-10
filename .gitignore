@@ -1,0 +1,8 @@
+node_modules
+build
+.svelte-kit
+target
+.env*
+# src-tauri/gen/schemas is committed on purpose; only the other generated output is ignored.
+src-tauri/gen/*
+!src-tauri/gen/schemas

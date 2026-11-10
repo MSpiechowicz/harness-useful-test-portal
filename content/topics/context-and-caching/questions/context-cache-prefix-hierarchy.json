@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "context-cache-prefix-hierarchy",
+  "type": "single",
+  "difficulty": "intermediate",
+  "prompt": "You use prompt caching with a long system prompt and several tools. Mid-session your code edits the description of one tool. What happens to the cache?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Only the edited tool's entry is invalidated."
+    },
+    {
+      "id": "b",
+      "text": "Nothing; tool definitions are not part of the cached prefix."
+    },
+    {
+      "id": "c",
+      "text": "Only the message cache is invalidated."
+    },
+    {
+      "id": "d",
+      "text": "The whole cache is invalidated, because the prefix is ordered tools, then system, then messages."
+    }
+  ],
+  "correct": ["d"],
+  "explanation": "Caching works on prompt prefixes in the order tools, system, messages. A change at one level invalidates that level and everything after it, and modifying tool definitions (names, descriptions, parameters) invalidates the entire cache.",
+  "sources": [
+    {
+      "title": "Prompt caching (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+    }
+  ],
+  "tags": ["prompt-caching"]
+}

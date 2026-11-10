@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "prompting-before-you-start",
+  "type": "multi",
+  "difficulty": "basic",
+  "prompt": "Which of these does Anthropic say you should have in place before you start prompt engineering?",
+  "options": [
+    {
+      "id": "criteria",
+      "text": "A clear definition of the success criteria for your use case."
+    },
+    {
+      "id": "tests",
+      "text": "Some ways to empirically test against those criteria."
+    },
+    {
+      "id": "draft",
+      "text": "A first draft prompt you want to improve."
+    },
+    {
+      "id": "finetune",
+      "text": "A fine-tuned custom model for the task."
+    },
+    {
+      "id": "rag",
+      "text": "A retrieval pipeline over your documents."
+    }
+  ],
+  "correct": ["criteria", "tests", "draft"],
+  "explanation": "The overview assumes success criteria, a way to test against them, and a first draft prompt. Fine-tuning and retrieval are separate techniques, not prerequisites.",
+  "sources": [
+    {
+      "title": "Prompt engineering overview (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
+    }
+  ],
+  "tags": ["workflow", "success-criteria"]
+}

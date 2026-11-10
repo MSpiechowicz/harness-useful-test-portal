@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "tokens-count-before-sending",
+  "type": "single",
+  "difficulty": "intermediate",
+  "prompt": "You must keep a Claude prompt (system prompt, tools, images and messages) under a budget. How should you find out how many input tokens it will use before sending it?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Count words and multiply by a fixed ratio such as 1.3."
+    },
+    {
+      "id": "b",
+      "text": "Use a different vendor's open-source tokenizer; all tokenizers agree."
+    },
+    {
+      "id": "c",
+      "text": "Use the token counting endpoint for the target model, since counts depend on the model's tokenizer."
+    },
+    {
+      "id": "d",
+      "text": "Divide the character count by four; this is exact for every language."
+    }
+  ],
+  "correct": ["c"],
+  "explanation": "Tokens can be words, subwords, characters or bytes, and how many characters a token covers depends on the model and the language (newer tokenizers can yield noticeably more tokens for the same text). The token counting API accepts the same inputs as a message, including system prompts, tools, images and PDFs.",
+  "sources": [
+    {
+      "title": "Token counting (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/token-counting"
+    },
+    {
+      "title": "Glossary: Tokens (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/about-claude/glossary"
+    },
+    {
+      "title": "Context windows (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/context-windows"
+    }
+  ],
+  "tags": ["token-counting"]
+}

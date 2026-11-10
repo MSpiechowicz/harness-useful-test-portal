@@ -1,0 +1,35 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "embeddings-pgvector-inner-product",
+  "type": "single",
+  "difficulty": "intermediate",
+  "prompt": "What does the `<#>` operator return in pgvector?",
+  "code": "SELECT * FROM items ORDER BY embedding <#> '[3,1,2]' LIMIT 5;",
+  "options": [
+    {
+      "id": "a",
+      "text": "The inner product, so larger means more similar."
+    },
+    {
+      "id": "b",
+      "text": "The negative inner product, because Postgres index scans only support ascending order on operators."
+    },
+    {
+      "id": "c",
+      "text": "The cosine distance."
+    },
+    {
+      "id": "d",
+      "text": "The L1 (taxicab) distance."
+    }
+  ],
+  "correct": ["b"],
+  "explanation": "pgvector supports `<->` (L2), `<#>` (negative inner product), `<=>` (cosine distance) and `<+>` (L1). `<#>` returns the negative inner product so that ascending ORDER BY returns the most similar rows first; multiply by -1 to get the actual inner product.",
+  "sources": [
+    {
+      "title": "pgvector README",
+      "url": "https://github.com/pgvector/pgvector"
+    }
+  ],
+  "tags": ["pgvector", "dot-product"]
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "prompting-positive-formatting",
+  "type": "single",
+  "difficulty": "intermediate",
+  "prompt": "Claude keeps answering with bullet lists and markdown. According to the prompting guide, which instruction steers it best?",
+  "options": [
+    {
+      "id": "a",
+      "text": "\"Do not use markdown in your response.\""
+    },
+    {
+      "id": "b",
+      "text": "\"NEVER, under any circumstances, use bullet points.\""
+    },
+    {
+      "id": "c",
+      "text": "\"Your response should be composed of smoothly flowing prose paragraphs.\""
+    },
+    {
+      "id": "d",
+      "text": "\"Try to avoid formatting if you can.\""
+    }
+  ],
+  "correct": ["c"],
+  "explanation": "The guide advises telling Claude what to do instead of what not to do. Describing the desired output (flowing prose paragraphs) works better than a prohibition, and matching your own prompt style to the target style also helps.",
+  "sources": [
+    {
+      "title": "Prompting best practices (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices"
+    }
+  ],
+  "tags": ["formatting", "instructions"]
+}

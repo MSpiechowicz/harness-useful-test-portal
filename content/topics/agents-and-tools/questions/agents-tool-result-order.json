@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "agents-tool-result-order",
+  "type": "single",
+  "difficulty": "advanced",
+  "prompt": "Claude replied with `stop_reason: \"tool_use\"` and two `tool_use` blocks. You run both and also want to add a short text note. How must the next user message be structured?",
+  "options": [
+    {
+      "id": "a",
+      "text": "The text first, then the two `tool_result` blocks."
+    },
+    {
+      "id": "b",
+      "text": "Only one `tool_result` per user message, sent in two separate requests."
+    },
+    {
+      "id": "c",
+      "text": "The `tool_result` blocks first in the content array, and any text after all of them."
+    },
+    {
+      "id": "d",
+      "text": "The results as plain text in a system message."
+    }
+  ],
+  "correct": ["c"],
+  "explanation": "In the user message that carries tool results, the `tool_result` blocks must come first in the content array and any text must come after all of them. Each result references the matching `tool_use_id`.",
+  "sources": [
+    {
+      "title": "Handle tool calls (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/handle-tool-calls"
+    },
+    {
+      "title": "Tool use with Claude (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
+    }
+  ],
+  "tags": ["tool-use", "api"]
+}

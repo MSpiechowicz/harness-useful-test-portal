@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "context-cache-volatile-prefix",
+  "type": "single",
+  "difficulty": "advanced",
+  "prompt": "Your system prompt begins with \"Current time: <timestamp>\", followed by 10k tokens of stable instructions, and the cache breakpoint is at the end. Every request reports zero cache reads. Why?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Timestamps are not allowed in cached prompts."
+    },
+    {
+      "id": "b",
+      "text": "The cache matches on the exact prefix, so content that changes on every request before the breakpoint changes the prefix hash and prevents a hit."
+    },
+    {
+      "id": "c",
+      "text": "The cache only works for the first request in a conversation."
+    },
+    {
+      "id": "d",
+      "text": "The system prompt is too long to be cached."
+    }
+  ],
+  "correct": ["b"],
+  "explanation": "A cache entry is keyed by a hash of the whole prefix up to the breakpoint, so a per-request value before it makes every prefix different. Keep stable content first and put varying content (timestamps, per-request context) after the cached part.",
+  "sources": [
+    {
+      "title": "Prompt caching (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+    }
+  ],
+  "tags": ["prompt-caching", "prefix"]
+}

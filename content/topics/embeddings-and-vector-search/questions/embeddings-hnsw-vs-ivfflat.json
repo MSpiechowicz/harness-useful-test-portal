@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "embeddings-hnsw-vs-ivfflat",
+  "type": "multi",
+  "difficulty": "intermediate",
+  "prompt": "According to the pgvector documentation, which statements about HNSW and IVFFlat indexes are true?",
+  "options": [
+    {
+      "id": "hnsw-recall",
+      "text": "HNSW has a better speed-recall tradeoff than IVFFlat."
+    },
+    {
+      "id": "hnsw-cost",
+      "text": "HNSW has slower build times and uses more memory than IVFFlat."
+    },
+    {
+      "id": "ivf-data",
+      "text": "An IVFFlat index should be created after the table has some data, because it needs a training step."
+    },
+    {
+      "id": "ivf-slower-build",
+      "text": "IVFFlat builds more slowly and uses more memory than HNSW."
+    },
+    {
+      "id": "hnsw-train",
+      "text": "HNSW needs a k-means training step before it can be created."
+    }
+  ],
+  "correct": ["hnsw-recall", "hnsw-cost", "ivf-data"],
+  "explanation": "pgvector documents HNSW as a multilayer graph with better query performance but slower builds and more memory, and without a training step (it can be created on an empty table). IVFFlat is faster to build and smaller but has a worse speed-recall tradeoff and should be built once there is data.",
+  "sources": [
+    {
+      "title": "pgvector README",
+      "url": "https://github.com/pgvector/pgvector"
+    }
+  ],
+  "tags": ["hnsw", "ivf", "pgvector"]
+}

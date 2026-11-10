@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "language": "en",
+  "theme": "system",
+  "questionCount": 20,
+  "timerMinutes": 30,
+  "testStyle": "mixed",
+  "topics": [],
+  "difficulties": [],
+  "shuffleQuestions": true,
+  "shuffleOptions": true,
+  "checkForUpdates": true
+}

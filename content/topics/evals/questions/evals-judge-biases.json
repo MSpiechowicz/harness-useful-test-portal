@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "evals-judge-biases",
+  "type": "multi",
+  "difficulty": "advanced",
+  "prompt": "Which limitations of LLM-as-a-judge did Zheng et al. (MT-Bench) examine?",
+  "options": [
+    {
+      "id": "position",
+      "text": "Position bias."
+    },
+    {
+      "id": "verbosity",
+      "text": "Verbosity bias."
+    },
+    {
+      "id": "self",
+      "text": "Self-enhancement bias."
+    },
+    {
+      "id": "reasoning",
+      "text": "Limited reasoning ability."
+    },
+    {
+      "id": "useless",
+      "text": "Agreement with humans is below 50%, so judges are unusable."
+    }
+  ],
+  "correct": ["position", "verbosity", "self", "reasoning"],
+  "explanation": "The paper analyzes position, verbosity and self-enhancement biases and limited reasoning ability, and proposes mitigations. It also reports that strong judges such as GPT-4 reached over 80% agreement with humans, the same level as human-human agreement.",
+  "sources": [
+    {
+      "title": "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena (Zheng et al.)",
+      "url": "https://arxiv.org/abs/2306.05685"
+    }
+  ],
+  "tags": ["llm-as-judge", "bias"]
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "embeddings-normalized-dot-product",
+  "type": "single",
+  "difficulty": "intermediate",
+  "prompt": "OpenAI embeddings are normalized to length 1. What follows for similarity search over them?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Cosine similarity can be computed with just a dot product, and cosine similarity and Euclidean distance give identical rankings."
+    },
+    {
+      "id": "b",
+      "text": "Dot product and cosine similarity give opposite rankings."
+    },
+    {
+      "id": "c",
+      "text": "Only Euclidean distance is valid for normalized vectors."
+    },
+    {
+      "id": "d",
+      "text": "Similarity scores can no longer be compared between documents."
+    }
+  ],
+  "correct": ["a"],
+  "explanation": "For unit-length vectors the dot product equals cosine similarity, which is slightly faster to compute, and Euclidean distance ranks results identically. OpenAI recommends cosine similarity and notes the choice of distance function typically does not matter much.",
+  "sources": [
+    {
+      "title": "Embeddings guide (OpenAI)",
+      "url": "https://developers.openai.com/api/docs/guides/embeddings"
+    }
+  ],
+  "tags": ["cosine", "dot-product", "normalization"]
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "embeddings-ef-search",
+  "type": "single",
+  "difficulty": "intermediate",
+  "prompt": "An HNSW index in pgvector returns neighbors with low recall, but you have spare query latency. Which change should help?",
+  "code": "SET hnsw.ef_search = 100; -- default is 40",
+  "options": [
+    {
+      "id": "a",
+      "text": "Lower `hnsw.ef_search`."
+    },
+    {
+      "id": "b",
+      "text": "Raise `hnsw.ef_search` to enlarge the dynamic candidate list searched."
+    },
+    {
+      "id": "c",
+      "text": "Set `ivfflat.probes` to 1."
+    },
+    {
+      "id": "d",
+      "text": "Switch the column to a lower-dimension type without reindexing."
+    }
+  ],
+  "correct": ["b"],
+  "explanation": "`hnsw.ef_search` is the size of the dynamic candidate list used during search (40 by default). A higher value gives better recall at the cost of speed. `ivfflat.probes` only applies to IVFFlat indexes.",
+  "sources": [
+    {
+      "title": "pgvector README",
+      "url": "https://github.com/pgvector/pgvector"
+    }
+  ],
+  "tags": ["hnsw", "recall", "tuning"]
+}

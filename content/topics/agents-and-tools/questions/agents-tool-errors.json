@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "agents-tool-errors",
+  "type": "true-false",
+  "difficulty": "intermediate",
+  "prompt": "When a tool execution fails, you can return a `tool_result` with `is_error` set to true and an informative message so the model can recover or retry.",
+  "correct": true,
+  "explanation": "The `tool_result` block has an optional `is_error` flag for failed executions. Anthropic also advises writing error messages that state specific, actionable fixes rather than opaque codes or tracebacks, which steers the agent toward correct usage.",
+  "sources": [
+    {
+      "title": "Handle tool calls (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/handle-tool-calls"
+    },
+    {
+      "title": "Writing effective tools for agents (Anthropic)",
+      "url": "https://www.anthropic.com/research/writing-tools-for-agents"
+    }
+  ],
+  "tags": ["tool-use", "errors"]
+}

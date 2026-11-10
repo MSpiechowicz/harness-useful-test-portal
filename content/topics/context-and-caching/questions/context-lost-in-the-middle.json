@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "context-lost-in-the-middle",
+  "type": "single",
+  "difficulty": "intermediate",
+  "prompt": "In multi-document question answering, where did Liu et al. (\"Lost in the Middle\") find language models used relevant information best?",
+  "options": [
+    {
+      "id": "a",
+      "text": "At the beginning or the end of the input context."
+    },
+    {
+      "id": "b",
+      "text": "In the exact middle of the input context."
+    },
+    {
+      "id": "c",
+      "text": "Equally well at every position."
+    },
+    {
+      "id": "d",
+      "text": "Only when it was repeated three times."
+    }
+  ],
+  "correct": ["a"],
+  "explanation": "Performance was often highest when the relevant information was at the beginning or end of the context and degraded significantly when it was in the middle, even for models built for long contexts.",
+  "sources": [
+    {
+      "title": "Lost in the Middle: How Language Models Use Long Contexts (Liu et al.)",
+      "url": "https://arxiv.org/abs/2307.03172"
+    }
+  ],
+  "tags": ["long-context", "position"]
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "rag-citations-guarantee",
+  "type": "true-false",
+  "difficulty": "intermediate",
+  "prompt": "With Claude's citations feature, the API parses citations into structured results whose pointers to the provided documents are guaranteed to be valid, unlike prompt-based quoting where the model writes citations as free text.",
+  "correct": true,
+  "explanation": "The citations docs state that because the API parses citations and extracts `cited_text` directly, citations contain valid pointers to the provided documents. `cited_text` also does not count toward output tokens, and in Anthropic's evaluations the feature picks relevant quotes more reliably than prompting alone.",
+  "sources": [
+    {
+      "title": "Citations (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/citations"
+    }
+  ],
+  "tags": ["citations", "grounding"]
+}

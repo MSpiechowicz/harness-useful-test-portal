@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "rag-parametric-vs-nonparametric",
+  "type": "single",
+  "difficulty": "basic",
+  "prompt": "In the original RAG paper (Lewis et al.), what plays the role of non-parametric memory?",
+  "options": [
+    {
+      "id": "a",
+      "text": "The weights of the pre-trained seq2seq generator."
+    },
+    {
+      "id": "b",
+      "text": "The prompt template."
+    },
+    {
+      "id": "c",
+      "text": "A dense vector index of Wikipedia, accessed with a pre-trained neural retriever."
+    },
+    {
+      "id": "d",
+      "text": "The decoding temperature setting."
+    }
+  ],
+  "correct": ["c"],
+  "explanation": "RAG combines parametric memory (a pre-trained seq2seq model) with non-parametric memory, which in the paper is a dense vector index of Wikipedia accessed by a neural retriever. Retrieval gives access to updatable knowledge and provenance.",
+  "sources": [
+    {
+      "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks (Lewis et al.)",
+      "url": "https://arxiv.org/abs/2005.11401"
+    }
+  ],
+  "tags": ["rag", "basics"]
+}

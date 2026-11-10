@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "evals-success-criteria",
+  "type": "single",
+  "difficulty": "basic",
+  "prompt": "Which of these is the best success criterion for a sentiment classifier?",
+  "options": [
+    {
+      "id": "a",
+      "text": "The model should classify sentiment well."
+    },
+    {
+      "id": "b",
+      "text": "Achieve an F1 score of at least 0.85 on a held-out test set of 10,000 diverse posts, a 5% improvement over the current baseline."
+    },
+    {
+      "id": "c",
+      "text": "Users should like the results."
+    },
+    {
+      "id": "d",
+      "text": "The model should beat all competitors."
+    }
+  ],
+  "correct": ["b"],
+  "explanation": "Good criteria are specific, measurable, achievable and relevant. The F1 threshold on a held-out set with a stated baseline is quantitative and testable, unlike vague goals such as \"well\".",
+  "sources": [
+    {
+      "title": "Define success criteria and build evaluations (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/test-and-evaluate/develop-tests"
+    }
+  ],
+  "tags": ["success-criteria"]
+}

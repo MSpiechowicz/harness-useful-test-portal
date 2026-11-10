@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "tokens-flag-regional-indicators",
+  "type": "true-false",
+  "difficulty": "advanced",
+  "prompt": "A flag emoji is encoded as a pair of Regional Indicator code points, yet it forms a single grapheme cluster.",
+  "correct": true,
+  "explanation": "UAX #29 includes a pair of Regional_Indicator characters in a grapheme cluster (rule GB12/GB13: no break between RI symbols within an emoji flag sequence). So two code points render as one user-perceived character.",
+  "sources": [
+    {
+      "title": "UAX #29: Unicode Text Segmentation",
+      "url": "https://www.unicode.org/reports/tr29/"
+    }
+  ],
+  "tags": ["unicode", "grapheme-cluster", "emoji"]
+}

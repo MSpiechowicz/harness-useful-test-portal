@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "embeddings-ivf-failure-case",
+  "type": "single",
+  "difficulty": "advanced",
+  "prompt": "In an IVF (inverted file) index as described in the Faiss wiki, what is the failure case that makes a search miss a true nearest neighbor?",
+  "options": [
+    {
+      "id": "a",
+      "text": "The query vector has too many dimensions."
+    },
+    {
+      "id": "b",
+      "text": "The cell containing the true nearest neighbor is not among the `nprobe` cells that are visited."
+    },
+    {
+      "id": "c",
+      "text": "The coarse quantizer is a flat index."
+    },
+    {
+      "id": "d",
+      "text": "The inverted lists have unequal lengths."
+    }
+  ],
+  "correct": ["b"],
+  "explanation": "IVF partitions vectors into `nlist` cells (for example with k-means) and searches only the `nprobe` cells closest to the query. The failure case is that the nearest neighbor's cell is not selected; raising `nprobe` improves recall at the cost of more distance computations.",
+  "sources": [
+    {
+      "title": "Faiss indexes (Faiss wiki)",
+      "url": "https://github.com/facebookresearch/faiss/wiki/Faiss-indexes"
+    }
+  ],
+  "tags": ["ivf", "ann", "recall"]
+}

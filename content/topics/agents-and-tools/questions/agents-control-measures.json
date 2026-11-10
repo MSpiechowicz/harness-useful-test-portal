@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "agents-control-measures",
+  "type": "multi",
+  "difficulty": "intermediate",
+  "prompt": "Which measures does Anthropic describe for keeping an autonomous agent under control?",
+  "options": [
+    {
+      "id": "stop",
+      "text": "Stopping conditions, such as a maximum number of iterations."
+    },
+    {
+      "id": "human",
+      "text": "Pausing for human feedback at checkpoints or when the agent hits a blocker."
+    },
+    {
+      "id": "sandbox",
+      "text": "Extensive testing in sandboxed environments together with guardrails."
+    },
+    {
+      "id": "unbounded",
+      "text": "Letting the loop run without limits so the agent can self-correct."
+    },
+    {
+      "id": "hide",
+      "text": "Hiding planning steps so users are not confused."
+    }
+  ],
+  "correct": ["stop", "human", "sandbox"],
+  "explanation": "Autonomy brings higher costs and compounding errors, so the post recommends stopping conditions, human checkpoints and sandboxed testing with guardrails. It also advises transparency by showing the agent's planning steps, not hiding them.",
+  "sources": [
+    {
+      "title": "Building effective agents (Anthropic)",
+      "url": "https://www.anthropic.com/research/building-effective-agents"
+    }
+  ],
+  "tags": ["agents", "safety"]
+}

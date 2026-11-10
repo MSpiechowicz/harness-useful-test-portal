@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "evals-volume-over-quality",
+  "type": "true-false",
+  "difficulty": "intermediate",
+  "prompt": "Anthropic's eval design principles say that more test questions with slightly lower-signal automated grading beat fewer questions with high-quality hand grading.",
+  "correct": true,
+  "explanation": "One of the eval design principles is to prioritize volume over quality, alongside designing task-specific evals that mirror real traffic (including edge cases) and automating grading when possible.",
+  "sources": [
+    {
+      "title": "Define success criteria and build evaluations (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/test-and-evaluate/develop-tests"
+    }
+  ],
+  "tags": ["test-cases", "design"]
+}

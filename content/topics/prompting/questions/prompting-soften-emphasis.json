@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "prompting-soften-emphasis",
+  "type": "single",
+  "difficulty": "advanced",
+  "prompt": "Your system prompt says \"CRITICAL: You MUST use the search tool whenever...\" and was written for an older model. On newer, more system-prompt-responsive Claude models the tool is now called too often. What is the recommended fix?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Add more capital letters to make the rule unambiguous."
+    },
+    {
+      "id": "b",
+      "text": "Lower the temperature to zero."
+    },
+    {
+      "id": "c",
+      "text": "Delete the tool definition."
+    },
+    {
+      "id": "d",
+      "text": "Soften the language to normal phrasing such as \"Use this tool when...\""
+    }
+  ],
+  "correct": ["d"],
+  "explanation": "Newer models are more responsive to the system prompt, so aggressive wording that countered undertriggering on older models can cause overtriggering. The guide recommends plain wording like \"Use this tool when...\" instead of \"CRITICAL: You MUST...\".",
+  "sources": [
+    {
+      "title": "Prompting best practices (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices"
+    }
+  ],
+  "tags": ["tool-use", "migration"]
+}

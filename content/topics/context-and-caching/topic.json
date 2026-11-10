@@ -1,0 +1,8 @@
+{
+  "$schema": "../../schema/topic.schema.json",
+  "id": "context-and-caching",
+  "title": "Context windows & prompt caching",
+  "description": "What fills the context window, long-context behavior, compaction, and how prompt caching works.",
+  "group": "Working with LLMs",
+  "order": 40
+}

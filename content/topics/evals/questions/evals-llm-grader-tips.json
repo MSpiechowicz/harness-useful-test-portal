@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "evals-llm-grader-tips",
+  "type": "multi",
+  "difficulty": "intermediate",
+  "prompt": "Which tips does Anthropic give for LLM-based grading?",
+  "options": [
+    {
+      "id": "rubric",
+      "text": "Write detailed, clear rubrics."
+    },
+    {
+      "id": "scale",
+      "text": "Be specific about the output, for example only \"correct\"/\"incorrect\" or a 1 to 5 scale."
+    },
+    {
+      "id": "reason",
+      "text": "Let the grader reason (for example with thinking on) before it gives its score."
+    },
+    {
+      "id": "other-model",
+      "text": "Generally grade with a different model from the one that generated the output."
+    },
+    {
+      "id": "same-model",
+      "text": "Always use the same model for generation and grading so styles match."
+    },
+    {
+      "id": "vibes",
+      "text": "Ask for a purely qualitative impression, which is faster to read at scale."
+    }
+  ],
+  "correct": ["rubric", "scale", "reason", "other-model"],
+  "explanation": "The docs recommend clear rubrics, empirical outputs, reasoning before scoring (which helps complex judgments), testing reliability before scaling, and generally evaluating with a different model than the one that produced the output.",
+  "sources": [
+    {
+      "title": "Define success criteria and build evaluations (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/test-and-evaluate/develop-tests"
+    }
+  ],
+  "tags": ["llm-as-judge", "grading"]
+}

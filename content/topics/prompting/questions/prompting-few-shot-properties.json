@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "prompting-few-shot-properties",
+  "type": "multi",
+  "difficulty": "intermediate",
+  "prompt": "Which properties does Anthropic recommend for few-shot (multishot) examples in a prompt?",
+  "options": [
+    {
+      "id": "relevant",
+      "text": "Relevant: they mirror your actual use case closely."
+    },
+    {
+      "id": "diverse",
+      "text": "Diverse: they cover edge cases so Claude does not pick up unintended patterns."
+    },
+    {
+      "id": "tagged",
+      "text": "Structured: wrapped in `<example>` tags so they are distinguishable from instructions."
+    },
+    {
+      "id": "identical",
+      "text": "Uniform: every example uses the same wording and length to reinforce one pattern."
+    },
+    {
+      "id": "hundreds",
+      "text": "Exhaustive: include as many examples as fit, since more is always better."
+    }
+  ],
+  "correct": ["relevant", "diverse", "tagged"],
+  "explanation": "The guide says examples should be relevant, diverse and structured (wrapped in `<example>` tags), and suggests about 3 to 5 examples. Uniform examples risk Claude copying unintended patterns, and there is no recommendation to maximize their number.",
+  "sources": [
+    {
+      "title": "Prompting best practices (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices"
+    }
+  ],
+  "tags": ["few-shot", "examples"]
+}

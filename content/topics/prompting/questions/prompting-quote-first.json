@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "prompting-quote-first",
+  "type": "single",
+  "difficulty": "advanced",
+  "prompt": "You ask Claude to analyze a 50-page policy document and it sometimes states things the document does not say. Which prompt change most directly reduces this?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Ask Claude to be more confident and decisive."
+    },
+    {
+      "id": "b",
+      "text": "Ask it to first extract word-for-word quotes relevant to the task, then base its analysis only on those quotes."
+    },
+    {
+      "id": "c",
+      "text": "Shorten the document by deleting every other paragraph."
+    },
+    {
+      "id": "d",
+      "text": "Add \"do not hallucinate\" at the end of the prompt."
+    }
+  ],
+  "correct": ["b"],
+  "explanation": "For long-document tasks (above roughly 20k tokens), having Claude extract exact quotes first grounds the answer in the source text and reduces hallucinations. You can also have it find a supporting quote for each claim and retract claims that lack one.",
+  "sources": [
+    {
+      "title": "Reduce hallucinations (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations"
+    },
+    {
+      "title": "Prompting best practices (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices"
+    }
+  ],
+  "tags": ["hallucination", "grounding", "long-context"]
+}

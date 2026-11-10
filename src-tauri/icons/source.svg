@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="tile" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1024" y2="1024">
+      <stop offset="0" stop-color="#101012"/>
+      <stop offset="1" stop-color="#232327"/>
+    </linearGradient>
+    <linearGradient id="mark" gradientUnits="userSpaceOnUse" x1="0" y1="94" x2="0" y2="20">
+      <stop offset="0" stop-color="#2DD4A8"/>
+      <stop offset="1" stop-color="#5EB3FF"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="230" fill="url(#tile)"/>
+  <!-- The harness "H" mark (viewBox 10 14 100 86), scaled 8x and centered on the tile. -->
+  <g transform="translate(112 168) scale(8) translate(-10 -14)" fill="url(#mark)">
+    <path d="M18 20 H33 V50 H58 V20 H73 V64 H33 V94 H18 Z" transform="rotate(7 33 94)"/>
+    <path d="M58 64 H73 V94 H58 Z" transform="rotate(90 73 94)"/>
+  </g>
+</svg>

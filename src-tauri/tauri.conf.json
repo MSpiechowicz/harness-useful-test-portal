@@ -1,0 +1,58 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Harness Test Portal",
+  "mainBinaryName": "harness-test-portal",
+  "version": "../package.json",
+  "identifier": "com.mspiechowicz.harness-useful-test-portal",
+  "build": {
+    "devUrl": "http://localhost:5173",
+    "beforeDevCommand": "bun run dev",
+    "beforeBuildCommand": "bun run build",
+    "frontendDist": "../build"
+  },
+  "app": {
+    "withGlobalTauri": false,
+    "windows": [
+      {
+        "label": "main",
+        "create": false,
+        "title": "Harness Test Portal",
+        "url": "index.html",
+        "width": 1200,
+        "height": 800,
+        "minWidth": 900,
+        "minHeight": 640,
+        "center": true,
+        "resizable": true,
+        "decorations": true,
+        "visible": true,
+        "backgroundColor": "#07090a",
+        "dragDropEnabled": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src ipc: http://ipc.localhost; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'",
+      "devCsp": "default-src 'self' http://localhost:5173; script-src 'self' http://localhost:5173; style-src 'self' 'unsafe-inline' http://localhost:5173; img-src 'self' data: http://localhost:5173; font-src 'self' http://localhost:5173; connect-src ipc: http://ipc.localhost ws://localhost:5173 http://localhost:5173; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["appimage", "deb", "rpm", "nsis", "msi", "dmg", "app"],
+    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.png", "icons/icon.icns", "icons/icon.ico"],
+    "category": "Education",
+    "shortDescription": "Practice quizzes on AI coding harness knowledge",
+    "longDescription": "Harness Test Portal is an offline desktop app for practicing multiple-choice quizzes about AI coding harnesses, with timed tests, topic and difficulty filters, and explanations with sources. No accounts, no telemetry.",
+    "publisher": "Maciej Spiechowicz",
+    "copyright": "Copyright (C) 2026 Maciej Spiechowicz",
+    "license": "GPL-3.0-or-later",
+    "licenseFile": "../LICENSE",
+    "createUpdaterArtifacts": true
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "NOT_CONFIGURED: replace with the content of the updater .key.pub file (see docs/release-and-updater-keys.md)",
+      "endpoints": ["https://github.com/MSpiechowicz/harness-useful-test-portal/releases/latest/download/latest.json"],
+      "requireSignedVersion": true
+    }
+  }
+}

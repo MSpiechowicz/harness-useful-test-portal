@@ -1,0 +1,8 @@
+{
+  "$schema": "../../schema/topic.schema.json",
+  "id": "evals",
+  "title": "Evaluations",
+  "description": "Success criteria, test cases, grading methods and LLM-as-judge pitfalls.",
+  "group": "Working with LLMs",
+  "order": 70
+}

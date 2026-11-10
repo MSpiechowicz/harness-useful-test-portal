@@ -1,0 +1,46 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "rag-hybrid-pipeline",
+  "type": "multi",
+  "difficulty": "intermediate",
+  "prompt": "Which steps belong in a hybrid retrieval pipeline that combines BM25 and embeddings, as described by Anthropic?",
+  "options": [
+    {
+      "id": "chunk",
+      "text": "Split the knowledge base into chunks of usually no more than a few hundred tokens."
+    },
+    {
+      "id": "bm25",
+      "text": "Use BM25 to find top chunks by exact lexical match."
+    },
+    {
+      "id": "embed",
+      "text": "Use embeddings to find top chunks by semantic similarity."
+    },
+    {
+      "id": "fuse",
+      "text": "Combine and deduplicate both result lists using rank fusion."
+    },
+    {
+      "id": "discard",
+      "text": "Discard the embedding results whenever BM25 returns anything."
+    },
+    {
+      "id": "all",
+      "text": "Send every chunk of the corpus to the model and let it choose."
+    }
+  ],
+  "correct": ["chunk", "bm25", "embed", "fuse"],
+  "explanation": "The pipeline runs both retrievers over the same chunks, merges and deduplicates with rank fusion, then passes the top-K chunks to the generator. Reciprocal Rank Fusion merges ranked lists by position, so documents ranked highly in several lists rise.",
+  "sources": [
+    {
+      "title": "Introducing Contextual Retrieval (Anthropic)",
+      "url": "https://www.anthropic.com/research/contextual-retrieval"
+    },
+    {
+      "title": "Relevance scoring in hybrid search using Reciprocal Rank Fusion (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/azure/search/hybrid-search-ranking"
+    }
+  ],
+  "tags": ["hybrid-search", "rank-fusion"]
+}

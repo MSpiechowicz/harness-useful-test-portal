@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "prompting-prefill-removed",
+  "type": "true-false",
+  "difficulty": "advanced",
+  "prompt": "On Claude 4.6 and later models you can still force a JSON-only reply by ending the request with a partial assistant message (a prefill).",
+  "correct": false,
+  "explanation": "Starting with Claude 4.6 models, prefilling the last assistant turn is not supported and returns a 400 error. The guide recommends the structured outputs feature or simply instructing the model to follow your output structure (ideally with retries) instead.",
+  "sources": [
+    {
+      "title": "Prompting best practices (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices"
+    }
+  ],
+  "tags": ["prefill", "output-format"]
+}

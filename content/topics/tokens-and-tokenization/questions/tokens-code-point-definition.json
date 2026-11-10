@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "tokens-code-point-definition",
+  "type": "single",
+  "difficulty": "basic",
+  "prompt": "In the Unicode Standard, what is a code point?",
+  "options": [
+    {
+      "id": "a",
+      "text": "A single byte of a UTF-8 encoded string."
+    },
+    {
+      "id": "b",
+      "text": "A user-perceived character such as a letter with its accents."
+    },
+    {
+      "id": "c",
+      "text": "A value in the Unicode codespace: an integer from 0 to 10FFFF in hexadecimal."
+    },
+    {
+      "id": "d",
+      "text": "An index into a language model's token vocabulary."
+    }
+  ],
+  "correct": ["c"],
+  "explanation": "The Unicode glossary defines a code point as any value in the Unicode codespace, the integers 0 through 10FFFF (hex). Bytes are code units in UTF-8, user-perceived characters are grapheme clusters, and token IDs belong to a specific tokenizer.",
+  "sources": [
+    {
+      "title": "Unicode Glossary",
+      "url": "https://www.unicode.org/glossary/"
+    }
+  ],
+  "tags": ["unicode", "code-point"]
+}

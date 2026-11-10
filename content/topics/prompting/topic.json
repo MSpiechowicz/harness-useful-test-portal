@@ -1,0 +1,8 @@
+{
+  "$schema": "../../schema/topic.schema.json",
+  "id": "prompting",
+  "title": "Prompting best practices",
+  "description": "Writing clear, well-structured prompts: instructions, examples, XML structure, long-context layout and grounding.",
+  "group": "Working with LLMs",
+  "order": 10
+}

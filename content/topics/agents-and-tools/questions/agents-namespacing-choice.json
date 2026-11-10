@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "agents-namespacing-choice",
+  "type": "single",
+  "difficulty": "advanced",
+  "prompt": "You expose tools from several services and must pick a naming scheme: prefix-based (`asana_search`) or suffix-based (`search_asana`). How does Anthropic suggest deciding?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Always use suffixes, because verbs should come first."
+    },
+    {
+      "id": "b",
+      "text": "Always use prefixes, because they are universally better."
+    },
+    {
+      "id": "c",
+      "text": "Avoid namespacing entirely, since it confuses models."
+    },
+    {
+      "id": "d",
+      "text": "Test both on your own tool-use evaluations, because the effect is non-trivial and varies by LLM."
+    }
+  ],
+  "correct": ["d"],
+  "explanation": "Namespacing groups related tools under common prefixes to clarify boundaries. Anthropic found prefix versus suffix choices have non-trivial effects on tool-use evaluations that vary by model, and recommends choosing by your own evals.",
+  "sources": [
+    {
+      "title": "Writing effective tools for agents (Anthropic)",
+      "url": "https://www.anthropic.com/research/writing-tools-for-agents"
+    }
+  ],
+  "tags": ["tool-design", "evals"]
+}

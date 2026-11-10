@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "embeddings-exact-vs-approximate",
+  "type": "single",
+  "difficulty": "basic",
+  "prompt": "In pgvector, what changes when you add an approximate index (HNSW or IVFFlat) to a table that previously had none?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Nothing; results stay identical but faster."
+    },
+    {
+      "id": "b",
+      "text": "Queries now return approximate results: some recall is traded for speed, so results can differ."
+    },
+    {
+      "id": "c",
+      "text": "Queries become exact and slower."
+    },
+    {
+      "id": "d",
+      "text": "Distances are computed in a different metric."
+    }
+  ],
+  "correct": ["b"],
+  "explanation": "By default pgvector does exact nearest neighbor search with perfect recall. Adding an approximate index trades some recall for speed, so unlike typical indexes you can see different results after adding one.",
+  "sources": [
+    {
+      "title": "pgvector README",
+      "url": "https://github.com/pgvector/pgvector"
+    }
+  ],
+  "tags": ["ann", "recall", "pgvector"]
+}

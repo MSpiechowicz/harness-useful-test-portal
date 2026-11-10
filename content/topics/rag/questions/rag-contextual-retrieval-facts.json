@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "rag-contextual-retrieval-facts",
+  "type": "multi",
+  "difficulty": "intermediate",
+  "prompt": "Which statements about Anthropic's Contextual Retrieval are true?",
+  "options": [
+    {
+      "id": "llm-context",
+      "text": "An LLM generates a short, chunk-specific context (typically 50 to 100 tokens) from the whole document and the chunk."
+    },
+    {
+      "id": "both",
+      "text": "The context is prepended to each chunk before embedding it and before building the BM25 index."
+    },
+    {
+      "id": "caching",
+      "text": "Prompt caching keeps the cost low because the document is loaded into the cache once instead of being sent for every chunk."
+    },
+    {
+      "id": "query-rewrite",
+      "text": "It rewrites the user's query at runtime to add the missing context."
+    },
+    {
+      "id": "embed-only",
+      "text": "It is applied only to the embedding side; BM25 is left unchanged."
+    }
+  ],
+  "correct": ["llm-context", "both", "caching"],
+  "explanation": "Chunks often lose context (\"revenue grew by 3%\" without the company or quarter). Contextual Retrieval prepends chunk-specific context to each chunk for both Contextual Embeddings and Contextual BM25, and prompt caching makes generating it for every chunk inexpensive.",
+  "sources": [
+    {
+      "title": "Introducing Contextual Retrieval (Anthropic)",
+      "url": "https://www.anthropic.com/research/contextual-retrieval"
+    }
+  ],
+  "tags": ["contextual-retrieval", "chunking"]
+}

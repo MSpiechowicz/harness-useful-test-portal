@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "context-cache-usage-fields",
+  "type": "multi",
+  "difficulty": "intermediate",
+  "prompt": "How can you check from the response `usage` object whether prompt caching worked?",
+  "options": [
+    {
+      "id": "write",
+      "text": "`cache_creation_input_tokens` above zero shows tokens were written to the cache."
+    },
+    {
+      "id": "read",
+      "text": "`cache_read_input_tokens` above zero shows tokens were read from the cache."
+    },
+    {
+      "id": "zero",
+      "text": "If both are zero, the prompt was not cached, for example because it was shorter than the minimum cacheable length."
+    },
+    {
+      "id": "flag",
+      "text": "A boolean `cache_hit` field is set to true."
+    },
+    {
+      "id": "header",
+      "text": "An `X-Cache: HIT` response header is returned."
+    }
+  ],
+  "correct": ["write", "read", "zero"],
+  "explanation": "The usage object reports cache_creation_input_tokens and cache_read_input_tokens. When both are 0 the prompt was not cached, most likely because it did not meet the minimum length for the model.",
+  "sources": [
+    {
+      "title": "Prompt caching (Claude Docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+    }
+  ],
+  "tags": ["prompt-caching", "api"]
+}

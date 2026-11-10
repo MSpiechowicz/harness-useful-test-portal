@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "tokens-bpe-subwords",
+  "type": "single",
+  "difficulty": "basic",
+  "prompt": "Why is subword tokenization such as byte pair encoding (BPE) useful for handling rare or unseen words?",
+  "options": [
+    {
+      "id": "a",
+      "text": "It stores every possible word in a very large dictionary."
+    },
+    {
+      "id": "b",
+      "text": "It encodes rare and unknown words as sequences of smaller, known subword units instead of failing on them."
+    },
+    {
+      "id": "c",
+      "text": "It replaces unknown words with a single placeholder token."
+    },
+    {
+      "id": "d",
+      "text": "It translates rare words into the most similar common word first."
+    }
+  ],
+  "correct": ["b"],
+  "explanation": "Sennrich et al. introduced BPE-based subword units so models can handle an open vocabulary: rare and unknown words become sequences of subword units. A byte-level BPE can encode arbitrary text, including text it never saw in training.",
+  "sources": [
+    {
+      "title": "Neural Machine Translation of Rare Words with Subword Units (Sennrich et al.)",
+      "url": "https://arxiv.org/abs/1508.07909"
+    },
+    {
+      "title": "tiktoken README (OpenAI)",
+      "url": "https://github.com/openai/tiktoken"
+    }
+  ],
+  "tags": ["bpe", "tokenization"]
+}

@@ -1,0 +1,8 @@
+{
+  "$schema": "../../schema/topic.schema.json",
+  "id": "agents-and-tools",
+  "title": "Agents, loops & tool use",
+  "description": "Workflows versus agents, the agent loop, tool design and the tool-call protocol.",
+  "group": "Working with LLMs",
+  "order": 20
+}

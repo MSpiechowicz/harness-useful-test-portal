@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "tokens-normalization-nfc",
+  "type": "multi",
+  "difficulty": "advanced",
+  "prompt": "The precomposed \"é\" (U+00E9) and the sequence `e` + combining acute (U+0065 U+0301) look identical. Which statements are true?",
+  "options": [
+    {
+      "id": "canonical",
+      "text": "They are canonically equivalent: they represent the same abstract character with the same appearance and behavior."
+    },
+    {
+      "id": "nfc",
+      "text": "Normalization Form C uses canonical composite characters where possible, so it turns the second form into U+00E9."
+    },
+    {
+      "id": "same-bytes",
+      "text": "They produce identical byte sequences in UTF-8."
+    },
+    {
+      "id": "same-tokens",
+      "text": "A tokenizer is guaranteed to produce the same token IDs for both."
+    },
+    {
+      "id": "compare",
+      "text": "After normalizing both strings to NFC, they compare equal."
+    }
+  ],
+  "correct": ["canonical", "nfc", "compare"],
+  "explanation": "UAX #15 defines canonical equivalence between composed and combining sequences and normalization forms to unify them. The raw strings differ in code points and bytes, so tokenizers can produce different tokens; normalize text first when you need consistent matching.",
+  "sources": [
+    {
+      "title": "UAX #15: Unicode Normalization Forms",
+      "url": "https://www.unicode.org/reports/tr15/"
+    }
+  ],
+  "tags": ["unicode", "normalization"]
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "rag-why-bm25",
+  "type": "single",
+  "difficulty": "intermediate",
+  "prompt": "A support bot using only embedding search fails on queries like \"Error code TS-999\". Which addition does Anthropic suggest, and why?",
+  "options": [
+    {
+      "id": "a",
+      "text": "BM25, because lexical matching finds exact strings such as identifiers and technical terms that embeddings can miss."
+    },
+    {
+      "id": "b",
+      "text": "A larger chunk size, because longer chunks always contain the identifier."
+    },
+    {
+      "id": "c",
+      "text": "A lower temperature, because the model is guessing."
+    },
+    {
+      "id": "d",
+      "text": "Removing the embedding model, because BM25 is strictly better."
+    }
+  ],
+  "correct": ["a"],
+  "explanation": "Embeddings capture semantics but can miss exact matches: a query for \"TS-999\" may surface general error-code content. BM25 ranks by lexical match (building on TF-IDF with document-length and term-frequency saturation), so it catches unique identifiers and technical terms.",
+  "sources": [
+    {
+      "title": "Introducing Contextual Retrieval (Anthropic)",
+      "url": "https://www.anthropic.com/research/contextual-retrieval"
+    },
+    {
+      "title": "Hybrid search (Pinecone Docs)",
+      "url": "https://docs.pinecone.io/guides/search/hybrid-search"
+    }
+  ],
+  "tags": ["bm25", "hybrid-search"]
+}

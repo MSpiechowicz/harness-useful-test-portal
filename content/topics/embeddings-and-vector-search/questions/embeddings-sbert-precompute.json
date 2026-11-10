@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../schema/question.schema.json",
+  "id": "embeddings-sbert-precompute",
+  "type": "true-false",
+  "difficulty": "intermediate",
+  "prompt": "Sentence-BERT makes semantic search practical because it produces sentence embeddings that can be precomputed and compared with cosine similarity, instead of running BERT on every sentence pair.",
+  "correct": true,
+  "explanation": "The SBERT paper notes that finding the most similar pair among 10,000 sentences takes about 50 million BERT inference computations (around 65 hours). With siamese-network embeddings compared via cosine similarity, it takes about 5 seconds at similar accuracy.",
+  "sources": [
+    {
+      "title": "Sentence-BERT (Reimers & Gurevych)",
+      "url": "https://arxiv.org/abs/1908.10084"
+    }
+  ],
+  "tags": ["embeddings", "bi-encoder"]
+}
