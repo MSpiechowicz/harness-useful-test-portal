@@ -28,6 +28,12 @@ use crate::settings::SETTINGS_FILE;
 use crate::updates::Updates;
 
 /// Registers every IPC command; `command_names.rs` lists the same ones for the ACL.
+/// The app context (config, assets, ACL). Generated in this one place: on macOS a second expansion of
+/// the macro in the same crate, as the tests would add, defines the embedded Info.plist twice.
+fn context<R: tauri::Runtime>() -> tauri::Context<R> {
+    tauri::generate_context!()
+}
+
 fn invoke_handler<R: tauri::Runtime>() -> impl Fn(tauri::ipc::Invoke<R>) -> bool + Send + Sync + 'static {
     tauri::generate_handler![
         commands::settings::settings_load,
@@ -71,7 +77,7 @@ pub fn run() -> ExitCode {
             Ok(())
         })
         .invoke_handler(invoke_handler())
-        .build(tauri::generate_context!());
+        .build(context());
 
     match result {
         Ok(app) => {
@@ -126,7 +132,7 @@ mod tests {
             .manage(SettingsStore::new(directory.path().join(SETTINGS_FILE)))
             .manage(DataStore::new(directory.path().to_path_buf()))
             .invoke_handler(handler)
-            .build(tauri::generate_context!())
+            .build(context())
             .expect("mock app");
         let window = WebviewWindowBuilder::new(&app, "main", WebviewUrl::default())
             .build()
