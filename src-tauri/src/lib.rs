@@ -141,6 +141,14 @@ mod tests {
         (app, window, directory)
     }
 
+    /// Where the app's own page is served from, the only origin the capability gives commands to.
+    /// Windows serves it over http from `tauri.localhost`, the other systems from the `tauri` scheme.
+    const LOCAL_ORIGIN: &str = if cfg!(windows) {
+        "http://tauri.localhost"
+    } else {
+        "tauri://localhost"
+    };
+
     /// What the page receives when it calls `command` without arguments.
     fn call(
         window: &tauri::WebviewWindow<tauri::test::MockRuntime>,
@@ -150,7 +158,7 @@ mod tests {
             cmd: command.into(),
             callback: CallbackFn(0),
             error: CallbackFn(1),
-            url: "tauri://localhost".parse().expect("URL"),
+            url: LOCAL_ORIGIN.parse().expect("URL"),
             body: InvokeBody::Json(serde_json::json!({})),
             headers: Default::default(),
             invoke_key: INVOKE_KEY.to_owned(),
